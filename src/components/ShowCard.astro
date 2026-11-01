@@ -1,0 +1,62 @@
+---
+import { googleCalendarUrl } from "../lib/ics";
+import { formatParts, hueFor, type Show } from "../lib/shows";
+
+interface Props {
+	show: Show;
+	image?: string;
+	siteUrl: string;
+}
+
+const { show, image, siteUrl } = Astro.props;
+const when = formatParts(show);
+const hue = hueFor(show.typeSlug);
+---
+
+<li class="show" data-end={show.end.toISOString()} style={`--hue: ${hue}`}>
+	<article>
+		<div class="show-art">
+			{
+				image ? (
+					<img src={image} alt={`${show.type} show art`} loading="lazy" decoding="async" />
+				) : (
+					<div class="placeholder" aria-hidden="true">
+						<span>{show.type}</span>
+					</div>
+				)
+			}
+		</div>
+		<div class="show-body">
+			<div class="stub" aria-hidden="true">
+				<span class="stub-month">{when.month}</span>
+				<span class="stub-day">{when.day}</span>
+				<span class="stub-weekday">{when.weekday}</span>
+			</div>
+			<div class="show-info">
+				{show.title && show.title !== show.type && <p class="show-type">{show.type}</p>}
+				<h3>{show.displayName}</h3>
+				<p class="meta">
+					<time datetime={show.start.toISOString()}>
+						<span class="sr-only">{when.long}, </span>{when.time}
+					</time>
+					<span aria-hidden="true"> · </span>
+					{show.venueUrl ? <a href={show.venueUrl}>{show.venue}</a> : <span>{show.venue}</span>}
+				</p>
+				{show.notes && <p class="notes">{show.notes}</p>}
+				<div class="actions">
+					{
+						show.ticketUrl && (
+							<a class="btn btn-primary" href={show.ticketUrl} rel="noopener" target="_blank">
+								Tickets
+							</a>
+						)
+					}
+					<a class="btn" href={`/shows/${show.id}.ics`}>Add to calendar</a>
+					<a class="btn btn-ghost" href={googleCalendarUrl(show, siteUrl)} rel="noopener" target="_blank">
+						Google Cal
+					</a>
+				</div>
+			</div>
+		</div>
+	</article>
+</li>

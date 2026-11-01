@@ -1,0 +1,6 @@
+/*.ics
+  Content-Type: text/calendar; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/images/*
+  Cache-Control: public, max-age=86400
