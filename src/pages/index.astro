@@ -2,14 +2,18 @@
 import "@fontsource-variable/fraunces";
 import "@fontsource-variable/inter";
 import "../styles/global.css";
+import { Image } from "astro:assets";
+import bioPhoto from "../assets/photos/tyler-bio.webp";
+import heroPhoto from "../assets/photos/tyler-onstage.webp";
+import jerseyPhoto from "../assets/photos/tyler-comedysportz.webp";
+import scenePhoto from "../assets/photos/tyler-csz-seattle.webp";
 import ShowCard from "../components/ShowCard.astro";
-import { findHeadshot, loadShowImages, loadShows } from "../lib/data";
+import { loadShowImages, loadShows } from "../lib/data";
 import { splitShows } from "../lib/shows";
 
 const siteUrl = String(Astro.site);
 const shows = loadShows();
 const images = loadShowImages();
-const headshot = findHeadshot();
 // Build-time split; a tiny script below re-checks in the browser so a show
 // moves to "Past" on its own even if the site hasn't been rebuilt.
 const { upcoming, past } = splitShows(shows);
@@ -36,9 +40,17 @@ const description = "Seattle improviser. Come see a show! Upcoming dates for Sea
 	</head>
 	<body>
 		<header class="hero">
+			<Image
+				class="hero-photo"
+				src={heroPhoto}
+				alt="Tyler throws his arms wide in front of a glowing red arched window as the crowd cheers."
+				widths={[390, 640, 960]}
+				sizes="(min-width: 640px) 65vw, 100vw"
+				loading="eager"
+				fetchpriority="high"
+			/>
 			<div class="bulbs" aria-hidden="true"></div>
 			<div class="hero-inner">
-				{headshot && <img class="headshot" src={headshot} alt="Tyler Leonhardt" width="112" height="112" />}
 				<p class="eyebrow">Improviser · Seattle</p>
 				<h1>Tyler <em>Leonhardt</em></h1>
 				<a class="hero-cta" href="#shows">
@@ -50,6 +62,13 @@ const description = "Seattle improviser. Come see a show! Upcoming dates for Sea
 		<main>
 			<section class="bio" aria-labelledby="about-heading">
 				<h2 id="about-heading" class="section-label">About</h2>
+				<Image
+					class="bio-photo"
+					src={bioPhoto}
+					alt="Tyler performing in a dark denim shirt and rabbit tee, lit by warm stage lights beside warehouse windows."
+					widths={[120, 176, 240, 320]}
+					sizes="(min-width: 640px) 176px, 120px"
+				/>
 				<p>
 					Tyler Leonhardt has been making things up on stage in Seattle since 2023, and has been part of the{" "}
 					<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a> ensemble since 2025. He’s also a{" "}
@@ -79,6 +98,32 @@ const description = "Seattle improviser. Come see a show! Upcoming dates for Sea
 						{past.map((show) => <ShowCard show={show} image={images.get(show.typeSlug)} siteUrl={siteUrl} />)}
 					</ol>
 				</details>
+			</section>
+
+			<section class="gallery" aria-labelledby="gallery-heading">
+				<h2 id="gallery-heading" class="section-label">A few unscripted moments</h2>
+				<div class="gallery-grid">
+					<figure>
+						<Image
+							src={jerseyPhoto}
+							alt="Tyler points finger guns at the camera in a red ComedySportz Seattle jersey against a brick wall."
+							widths={[180, 360, 600, 720]}
+							sizes="(min-width: 640px) 290px, calc((100vw - 3.5rem) / 2)"
+							loading="lazy"
+						/>
+						<figcaption>Yes, and… finger guns.</figcaption>
+					</figure>
+					<figure>
+						<Image
+							src={scenePhoto}
+							alt="Tyler mid-scene in his red jersey on the CSz Seattle stage, with colorful stools and a brick set behind him."
+							widths={[180, 360, 600, 720]}
+							sizes="(min-width: 640px) 290px, calc((100vw - 3.5rem) / 2)"
+							loading="lazy"
+						/>
+						<figcaption>Making it up at CSz Seattle.</figcaption>
+					</figure>
+				</div>
 			</section>
 		</main>
 

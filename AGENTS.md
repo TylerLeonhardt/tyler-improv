@@ -34,7 +34,17 @@ A JSON array of objects. All times are Seattle local time.
 - `src/lib/ics.ts`: calendar file generation. `src/lib/data.ts`: file loading and image lookup.
 - `src/pages/index.astro`, `src/components/ShowCard.astro`, `src/styles/global.css`: the page.
 - `src/pages/shows.ics.ts` → `/shows.ics` subscribable feed; `src/pages/shows/[id].ics.ts` → per-show "Add to calendar".
-- `public/images/shows/`: one image per show type. `public/images/tyler.jpg` (optional) adds a headshot to the header.
+- `public/images/shows/`: one image per show type.
+- `src/assets/photos/`: optimized bio, hero, and gallery photos; Astro generates responsive image sizes.
+
+## Incoming photos
+
+George drops CEO-provided images into `.incoming-photos/` for agents to process, including future
+show-type images. This ignored folder is temporary staging, never a committed asset directory.
+Inspect the assignments, crop/resize and optimize the needed images into `src/assets/photos/`
+(site photos) or `public/images/shows/<type-slug>.<ext>` (show-type images). Keep each image under
+1 MB, provide descriptive alt text, and use responsive sizes for site photos. Delete the staged
+originals and `.incoming-photos/` after processing; commit only the final assets.
 
 ## Commands
 
