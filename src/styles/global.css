@@ -69,12 +69,29 @@ summary:focus-visible {
 		radial-gradient(120% 70% at 50% -10%, rgba(244, 182, 63, 0.28), transparent 60%),
 		var(--ink);
 	color: var(--paper);
-	padding: calc(2.75rem + env(safe-area-inset-top)) 1.25rem 2.75rem;
+	padding: calc(20rem + env(safe-area-inset-top)) 1.25rem 2.75rem;
 	border-radius: 0 0 28px 28px;
 	overflow: hidden;
 }
 
+.hero-photo {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 58%;
+}
+
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to bottom, rgba(28, 24, 20, 0.05) 30%, rgba(28, 24, 20, 0.9) 72%, var(--ink));
+}
+
 .bulbs {
+	z-index: 2;
 	position: absolute;
 	inset: 12px 12px auto;
 	height: 10px;
@@ -84,18 +101,22 @@ summary:focus-visible {
 }
 
 .hero-inner {
+	position: relative;
+	z-index: 1;
 	max-width: 40rem;
 	margin: 0 auto;
 }
 
-.headshot {
+.bio-photo {
 	display: block;
-	width: 112px;
-	height: 112px;
-	border-radius: 50%;
+	float: left;
+	width: 120px;
+	height: 150px;
+	border-radius: 12px;
 	object-fit: cover;
-	border: 3px solid var(--gold);
-	margin-bottom: 1.25rem;
+	border: 3px solid var(--card);
+	box-shadow: 0 0 0 1px var(--line);
+	margin: 0 1.25rem 0.75rem 0;
 }
 
 .eyebrow {
@@ -157,6 +178,10 @@ section {
 	letter-spacing: -0.01em;
 }
 
+.bio {
+	display: flow-root;
+}
+
 .bio p {
 	margin: 0 0 1rem;
 	color: var(--ink-soft);
@@ -178,6 +203,37 @@ section {
 	font-size: 0.9rem;
 	font-weight: 600;
 	white-space: nowrap;
+}
+
+/* ---------- Gallery: little souvenir tickets ---------- */
+
+.gallery-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.gallery figure {
+	margin: 0;
+	background: var(--card);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	overflow: hidden;
+}
+
+.gallery img {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 3 / 4;
+	object-fit: cover;
+}
+
+.gallery figcaption {
+	padding: 0.75rem;
+	border-top: 2px dashed var(--line);
+	font-size: 0.8rem;
+	color: var(--ink-soft);
 }
 
 /* ---------- Show cards: ticket stubs ---------- */
@@ -496,8 +552,28 @@ footer .fine {
 
 @media (min-width: 640px) {
 	.hero {
-		padding-top: 4rem;
-		padding-bottom: 3.5rem;
+		min-height: 35rem;
+		padding-top: 8rem;
+		padding-bottom: 6rem;
+	}
+
+	.hero-photo {
+		left: auto;
+		width: 65%;
+		object-position: 50% 62%;
+	}
+
+	.hero::after {
+		background: linear-gradient(to right, var(--ink) 15%, rgba(28, 24, 20, 0.82) 40%, rgba(28, 24, 20, 0.08) 80%);
+	}
+
+	.hero-inner {
+		max-width: 64rem;
+	}
+
+	.bio-photo {
+		width: 176px;
+		height: 220px;
 	}
 
 	.show article {

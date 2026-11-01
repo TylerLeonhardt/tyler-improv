@@ -69,7 +69,14 @@ auto-generated colored placeholder, so an image is never required.
 2. Allowed extensions: `.jpg`, `.jpeg`, `.png`, `.webp` (lowercase). Only one image per type.
 3. Landscape works best (displayed at 3:2, center-cropped). Keep it **under 1 MB**; resize first, e.g. on macOS:
    `sips -Z 1200 input.jpg --out public/images/shows/<slug>.jpg`
-4. If the image was sent through chat, save the attachment to that path.
+4. George drops CEO-provided images into `.incoming-photos/` for agents to process, including
+   future show-type images. This folder is ignored staging: never commit it. Inspect the provided
+   assignments, then crop/resize and optimize the needed images into the final asset location.
+   Show-type images go in `public/images/shows/` using the naming above; bio, hero, and gallery
+   photos go in `src/assets/photos/` and use Astro's responsive image pipeline with descriptive
+   alt text. Delete the staged originals and `.incoming-photos/` after processing. Commit only
+   the final assets. If an image arrives through chat, stage the attachment in `.incoming-photos/`
+   and follow the same process.
 
 `npm test` prints which types are still using the placeholder.
 
