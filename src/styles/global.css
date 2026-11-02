@@ -150,8 +150,8 @@ h3,
 }
 
 h1 {
-	margin: 1.25rem 0 1.5rem;
-	font-size: clamp(3.75rem, 8.5vw, 6.75rem);
+	margin: 0;
+	font-size: clamp(3.5rem, 7.5vw, 6rem);
 	line-height: 1.02;
 	letter-spacing: -0.065em;
 }
@@ -173,33 +173,15 @@ h2 {
 }
 
 .hero {
+	padding-block: 2rem;
+}
+
+.shows-layout {
 	display: grid;
-	align-items: center;
-	gap: 3rem;
-	padding-block: 3.5rem 4rem;
+	gap: 0 3rem;
+	padding-bottom: 3.5rem;
 }
 
-.hero-intro {
-	margin: 0;
-	color: var(--muted);
-	font-size: 1.0625rem;
-	line-height: 1.7;
-}
-
-.hero-cta {
-	display: inline-flex;
-	align-items: center;
-	gap: 1.5rem;
-	margin-top: 2rem;
-	padding: 0.75rem 1.25rem;
-	background: var(--accent);
-	color: var(--paper);
-	font-size: 0.8125rem;
-	font-weight: 500;
-	text-decoration: none;
-}
-
-.hero-cta:hover,
 .btn-primary:hover {
 	background: var(--ink);
 	color: var(--paper);
@@ -222,7 +204,9 @@ img {
 }
 
 .hero-carousel {
+	width: min(100%, 22rem);
 	min-width: 0;
+	margin-inline: auto;
 }
 
 .carousel-slides {
@@ -244,20 +228,13 @@ img {
 	opacity: 1;
 }
 
-.carousel-slide figcaption {
-	visibility: hidden;
-}
-
-.carousel-slide[data-active] figcaption {
-	visibility: visible;
-}
-
 .carousel-controls {
 	display: flex;
 	visibility: hidden;
 	align-items: center;
 	gap: 0.5rem;
 	margin-top: 0.5rem;
+	justify-content: space-between;
 }
 
 .hero-carousel[data-ready] .carousel-controls {
@@ -295,21 +272,19 @@ img {
 }
 
 .carousel-count {
-	flex: 1;
 	color: var(--muted);
 	font-size: 0.75rem;
 	font-variant-numeric: tabular-nums;
 }
 
-figcaption {
-	margin-top: 0.75rem;
-	color: var(--muted);
-	font-size: 0.75rem;
-}
-
 .section {
 	padding-block: 3.5rem;
 	border-top: 1px solid var(--line);
+}
+
+.shows {
+	min-width: 0;
+	padding-top: 2rem;
 }
 
 .bio {
@@ -347,8 +322,8 @@ figcaption {
 	align-items: flex-start;
 	justify-content: space-between;
 	flex-wrap: wrap;
-	gap: 1.5rem;
-	margin-bottom: 2rem;
+	gap: 0.5rem 1.5rem;
+	margin-bottom: 1.5rem;
 }
 
 .section-description {
@@ -579,13 +554,27 @@ figcaption {
 	}
 
 	.hero {
-		grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-		gap: 3rem;
-		padding-block: 4.5rem 5.5rem;
+		padding-block: 3rem;
+	}
+
+	.shows-layout {
+		grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+		align-items: start;
+		padding-bottom: 4.5rem;
+		border-top: 1px solid var(--line);
+	}
+
+	.shows-layout .hero-carousel {
+		margin-top: 2rem;
 	}
 
 	.section {
 		padding-block: 4.5rem;
+	}
+
+	.shows {
+		padding-block: 2rem 0;
+		border-top: 0;
 	}
 
 	.bio {
@@ -600,15 +589,6 @@ figcaption {
 	.bio-photo {
 		width: 140px;
 		height: 175px;
-	}
-
-	.subscribe {
-		margin-top: 2rem;
-	}
-
-	.show-body {
-		grid-template-columns: 4rem minmax(0, 1fr);
-		gap: 2rem;
 	}
 
 	.show-info h3 {

@@ -42,12 +42,11 @@ const photos = [
 					src={photo.src}
 					alt={photo.alt}
 					widths={[390, 640, photo.src.width]}
-					sizes="(min-width: 1120px) 460px, (min-width: 760px) 43vw, calc(100vw - 3rem)"
+					sizes="(min-width: 1120px) 352px, (min-width: 760px) calc((100vw - 6rem) * 0.36), (min-width: 400px) 352px, calc(100vw - 3rem)"
 					loading={index === 0 ? "eager" : "lazy"}
 					fetchpriority={index === 0 ? "high" : "auto"}
 					style={`object-position: ${photo.position}`}
 				/>
-				<figcaption>{photo.caption}</figcaption>
 			</figure>
 		))}
 	</div>

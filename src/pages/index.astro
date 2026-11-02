@@ -39,25 +39,49 @@ const description = "I'm Tyler Leonhardt, a Seattle-based improviser with Seattl
 		<header class="site-header frame">
 			<a class="wordmark" href="/" aria-label="Tyler Leonhardt, home">Tyler Leonhardt<span aria-hidden="true">.</span></a>
 			<nav aria-label="Main navigation">
-				<a href="#about">About</a>
 				<a href="#shows">Shows</a>
+				<a href="#about">About</a>
 			</nav>
 		</header>
 
 		<main id="main" class="frame" tabindex="-1">
 			<section class="hero" aria-labelledby="hero-heading">
-				<div class="hero-inner">
-					<p class="eyebrow">Seattle improviser</p>
-					<h1 id="hero-heading">Tyler<br />Leonhardt</h1>
-					<p class="hero-intro">Find my next show.<br />Dates, venues, and tickets below.</p>
-					<a class="hero-cta" href="#shows">See upcoming shows <span aria-hidden="true">↗</span></a>
-				</div>
-				<HeroCarousel />
+				<h1 id="hero-heading">Tyler Leonhardt</h1>
 			</section>
+
+			<div class="shows-layout">
+				<section id="shows" class="shows section" aria-labelledby="shows-heading">
+					<div class="section-head">
+						<div class="section-heading">
+							<p class="eyebrow" aria-hidden="true">01 / Shows</p>
+							<h2 id="shows-heading">Upcoming shows</h2>
+							<p class="section-description">All times are Seattle local time.</p>
+						</div>
+						<a class="subscribe" href="/shows.ics" data-subscribe>Subscribe to calendar <span aria-hidden="true">↗</span></a>
+					</div>
+
+					<ol class="show-list" data-upcoming>
+						{upcoming.map((show) => <ShowCard show={show} image={images.get(show.typeSlug)} siteUrl={siteUrl} />)}
+					</ol>
+
+					<div class="empty" data-empty hidden={upcoming.length > 0}>
+						<p class="empty-title">No upcoming shows listed.</p>
+						<p>Subscribe to the calendar for new dates.</p>
+					</div>
+
+					<details class="past" data-past hidden={past.length === 0}>
+						<summary>Past shows <span class="count" data-past-count>{past.length}</span></summary>
+						<ol class="show-list" data-past-list>
+							{past.map((show) => <ShowCard show={show} image={images.get(show.typeSlug)} siteUrl={siteUrl} />)}
+						</ol>
+					</details>
+				</section>
+				<HeroCarousel />
+			</div>
 
 			<section id="about" class="bio section" aria-labelledby="about-heading">
 				<div class="section-heading">
-					<p class="eyebrow" aria-hidden="true">01 / About</p>
+					<p class="eyebrow" aria-hidden="true">02 / About</p>
 					<h2 id="about-heading">About</h2>
 				</div>
 				<div class="bio-content">
@@ -78,39 +102,11 @@ const description = "I'm Tyler Leonhardt, a Seattle-based improviser with Seattl
 					/>
 				</div>
 			</section>
-
-			<section id="shows" class="shows section" aria-labelledby="shows-heading">
-				<div class="section-head">
-					<div class="section-heading">
-						<p class="eyebrow" aria-hidden="true">02 / Shows</p>
-						<h2 id="shows-heading">Upcoming shows</h2>
-						<p class="section-description">All times are Seattle local time.</p>
-					</div>
-					<a class="subscribe" href="/shows.ics" data-subscribe>Subscribe to calendar <span aria-hidden="true">↗</span></a>
-				</div>
-
-				<ol class="show-list" data-upcoming>
-					{upcoming.map((show) => <ShowCard show={show} image={images.get(show.typeSlug)} siteUrl={siteUrl} />)}
-				</ol>
-
-				<div class="empty" data-empty hidden={upcoming.length > 0}>
-					<p class="empty-title">No upcoming shows listed.</p>
-					<p>Subscribe to the calendar for new dates.</p>
-				</div>
-
-				<details class="past" data-past hidden={past.length === 0}>
-					<summary>Past shows <span class="count" data-past-count>{past.length}</span></summary>
-					<ol class="show-list" data-past-list>
-						{past.map((show) => <ShowCard show={show} image={images.get(show.typeSlug)} siteUrl={siteUrl} />)}
-					</ol>
-				</details>
-			</section>
 		</main>
 
 		<footer class="site-footer frame">
 			<div>
 				<p class="footer-name">Tyler Leonhardt</p>
-				<p>Seattle improviser</p>
 			</div>
 			<div class="footer-links">
 				<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a>
