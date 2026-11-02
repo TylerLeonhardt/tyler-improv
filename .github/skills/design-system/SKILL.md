@@ -75,9 +75,15 @@ Start with "What does this really provide?" This site identifies Tyler and gives
 visitors show dates, venues, tickets, and calendar links. Write for those tasks:
 plain, specific, confident, and brief. Preserve verified facts; invent nothing.
 
+Write in first person, in Tyler's voice: "I've performed improv in Seattle since
+2023," not "Tyler has performed improv in Seattle since 2023." Keep Tyler's name
+where it serves identity or SEO (site title, name heading, footer, and calendar
+event names). Photo alt text can describe Tyler in third person; captions and
+functional labels can stay descriptive.
+
 - Do: "Find my next show." / "Dates, venues, and tickets below."
 - Do: "Upcoming shows" / "All times are Seattle local time."
-- Do: "Tyler Leonhardt has performed improv in Seattle since 2023."
+- Do: "I've performed improv in Seattle since 2023."
 - Don't: "On stage, in the moment." / "Improv made together in Seattle."
 - Don't: "See you at a show." / "In good company." / "he'd love to see you there."
 
