@@ -16,6 +16,10 @@ export const KNOWN_VENUES: Record<string, string> = {
 	"Seattle Comedy Theater": "https://seattlecomedytheater.com",
 };
 
+export const KNOWN_VENUE_MAPS: Record<string, string> = {
+	"Seattle Comedy Theater": "https://www.google.com/maps?cid=2517434607297078199",
+};
+
 function isRealDate(value: string): boolean {
 	const [y, m, d] = value.split("-").map(Number);
 	const dt = new Date(Date.UTC(y, m - 1, d));
@@ -75,6 +79,7 @@ export interface Show extends RawShow {
 	displayName: string;
 	venue: string;
 	venueUrl?: string;
+	venueMapUrl?: string;
 	start: Date;
 	end: Date;
 }
@@ -174,6 +179,7 @@ export function parseShows(raw: unknown): Show[] {
 			displayName: s.title ?? s.type,
 			venue,
 			venueUrl: KNOWN_VENUES[venue],
+			venueMapUrl: KNOWN_VENUE_MAPS[venue],
 			start,
 			end,
 		};
