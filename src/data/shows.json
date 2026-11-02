@@ -2,16 +2,19 @@
   {
     "date": "2026-11-07",
     "time": "19:30",
-    "type": "ComedySportz: Comedy for Everyone"
+    "type": "ComedySportz: Comedy for Everyone",
+    "ticketUrl": "https://www.crowdwork.com/e/comedysportz-comedy-for-everyone?date=2026-11-07T19:30:00"
   },
   {
     "date": "2026-11-14",
-    "time": "15:00",
-    "type": "Full Disclosure"
+    "time": "21:30",
+    "type": "Full Disclosure",
+    "ticketUrl": "https://www.crowdwork.com/e/full-disclosure-where-true-stories-feed-the-laughs?date=2026-11-14T21:30:00"
   },
   {
     "date": "2026-11-27",
     "time": "19:30",
-    "type": "ComedySportz: Rec League vs. The Pros"
+    "type": "ComedySportz: Rec League vs. The Pros",
+    "ticketUrl": "https://www.crowdwork.com/e/comedysportz-comedy-for-everyone?date=2026-11-27T19:30:00"
   }
 ]

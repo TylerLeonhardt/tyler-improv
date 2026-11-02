@@ -48,6 +48,17 @@ describe("parseShows", () => {
 		expect(show.end.getTime() - show.start.getTime()).toBe(90 * 60_000);
 	});
 
+	it.each([undefined, "Seattle Comedy Theater"])("links the default venue map for %s", (venue) => {
+		const [show] = parseShows([{ ...base, venue }]);
+		expect(show.venueMapUrl).toBe("https://www.google.com/maps?cid=2517434607297078199");
+		expect(show.venueUrl).toBe("https://seattlecomedytheater.com");
+	});
+
+	it("does not link an unknown venue to the default venue map", () => {
+		const [show] = parseShows([{ ...base, venue: "Another Theater" }]);
+		expect(show.venueMapUrl).toBeUndefined();
+	});
+
 	it("uses title as the display name and in the id", () => {
 		const [show] = parseShows([{ ...base, title: "Holiday Special", durationMinutes: 60 }]);
 		expect(show.displayName).toBe("Holiday Special");

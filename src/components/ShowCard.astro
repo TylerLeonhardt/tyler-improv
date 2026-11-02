@@ -41,6 +41,12 @@ const hue = hueFor(show.typeSlug);
 					</time>
 					<span aria-hidden="true"> · </span>
 					{show.venueUrl ? <a href={show.venueUrl}>{show.venue}</a> : <span>{show.venue}</span>}
+					{show.venueMapUrl && (
+						<>
+							<span aria-hidden="true"> · </span>
+							<a href={show.venueMapUrl} aria-label={`Map to ${show.venue}`}>Map</a>
+						</>
+					)}
 				</p>
 				{show.notes && <p class="notes">{show.notes}</p>}
 				<div class="actions">

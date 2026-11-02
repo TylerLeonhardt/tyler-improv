@@ -25,6 +25,12 @@ If the venue is unconfirmed and no existing record identifies it, omit `venue`; 
 Report it as unconfirmed: the site currently displays Seattle Comedy Theater when `venue` is omitted.
 Omit `ticketUrl` when no ticket link is supplied.
 
+Seattle Comedy Theater is at **3509 Fremont Ave N, Seattle, WA 98103**. Its website and
+map links are maintained centrally in `src/lib/shows.ts` (`KNOWN_VENUES` and `KNOWN_VENUE_MAPS`)
+and shown by `src/components/ShowCard.astro`. The stable Google Maps URL is
+https://www.google.com/maps?cid=2517434607297078199. Omit `venue` for this default, or use its exact name;
+both get the map link. Other venues do not inherit it. Do not add a map/address field to show JSON.
+
 No other fields are allowed; typos like `ticketURL` fail validation on purpose.
 
 If Tyler only says "Friday at 7:30", resolve it to a concrete date and **confirm it back** in your reply.
