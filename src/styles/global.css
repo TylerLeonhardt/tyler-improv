@@ -103,30 +103,17 @@ a:hover {
 .site-header {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: flex-end;
 	gap: 1rem;
 	min-height: 6rem;
 	border-bottom: 1px solid var(--line);
 }
 
-.wordmark,
 .footer-name {
 	font-family: var(--display);
 	font-size: 1.3rem;
 	font-weight: 450;
 	letter-spacing: -0.035em;
-}
-
-.wordmark {
-	display: inline-flex;
-	align-items: center;
-	min-height: 44px;
-	color: var(--ink);
-	text-decoration: none;
-}
-
-.wordmark span {
-	color: var(--accent);
 }
 
 nav {
@@ -201,6 +188,7 @@ img {
 	height: auto;
 	aspect-ratio: 4 / 5;
 	object-fit: cover;
+	object-position: var(--photo-position);
 }
 
 .hero-carousel {
@@ -275,6 +263,10 @@ img {
 	color: var(--muted);
 	font-size: 0.75rem;
 	font-variant-numeric: tabular-nums;
+}
+
+.carousel-dots {
+	display: none;
 }
 
 .section {
@@ -542,6 +534,145 @@ img {
 	}
 }
 
+@media (max-width: 759px) {
+	.site-header {
+		position: absolute;
+		inset: 0 0.5rem auto auto;
+		z-index: 3;
+		width: auto;
+		min-height: 0;
+		border: 0;
+	}
+
+	.site-header nav,
+	.carousel-controls {
+		background: var(--ink);
+	}
+
+	.site-header nav {
+		gap: 0;
+	}
+
+	.site-header a {
+		padding-inline: 0.5rem;
+		color: var(--paper);
+	}
+
+	.shows-layout {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: 42svh auto;
+	}
+
+	.hero,
+	.shows-layout .hero-carousel {
+		grid-area: 1 / 1;
+		width: 100vw;
+		margin-inline: calc(-1 * (100vw - 100%) / 2);
+	}
+
+	.hero {
+		z-index: 2;
+		align-self: end;
+		padding: 0 1.5rem 1.5rem;
+		color: var(--paper);
+		pointer-events: none;
+	}
+
+	.hero h1 {
+		max-width: 20rem;
+		font-size: clamp(3.5rem, 14.5vw, 5rem);
+	}
+
+	.hero-carousel {
+		position: relative;
+		overflow: clip;
+		background: var(--ink);
+	}
+
+	.carousel-slides,
+	.carousel-slide,
+	.carousel-slide .hero-photo {
+		height: 100%;
+	}
+
+	.carousel-slides {
+		position: absolute;
+		inset: 0;
+	}
+
+	.carousel-slide {
+		min-height: 0;
+	}
+
+	.carousel-slides::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to bottom, transparent 20%, rgb(0 0 0 / 72%) 55%);
+		pointer-events: none;
+	}
+
+	.carousel-slide .hero-photo {
+		position: absolute;
+		inset: 0;
+		aspect-ratio: auto;
+		object-position: var(--mobile-photo-position);
+	}
+
+	.carousel-controls {
+		position: absolute;
+		top: 0;
+		left: 0.5rem;
+		margin: 0;
+		gap: 0;
+	}
+
+	.carousel-controls [data-rotation] {
+		min-width: 4.5rem;
+		padding-inline: 0.5rem;
+		text-align: center;
+	}
+
+	.carousel-controls button,
+	.carousel-controls button:hover,
+	.carousel-controls button:disabled {
+		color: var(--paper);
+	}
+
+	.site-header :focus-visible,
+	.carousel-controls :focus-visible {
+		outline-color: var(--paper);
+		outline-offset: -3px;
+	}
+
+	.carousel-count,
+	.carousel-controls [data-previous],
+	.carousel-controls [data-next] {
+		display: none;
+	}
+
+	.carousel-dots {
+		display: flex;
+	}
+
+	.carousel-dots button {
+		display: grid;
+		place-items: center;
+	}
+
+	.carousel-dots span {
+		width: 1rem;
+		height: 2px;
+		background: currentColor;
+		opacity: 0.45;
+	}
+
+	.carousel-dots [aria-current] span {
+		height: 4px;
+		opacity: 1;
+	}
+}
+
 @media (min-width: 540px) {
 	.show-art {
 		display: block;
@@ -554,18 +685,24 @@ img {
 	}
 
 	.hero {
+		grid-column: 1 / -1;
 		padding-block: 3rem;
+		border-bottom: 1px solid var(--line);
 	}
 
 	.shows-layout {
 		grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
 		align-items: start;
 		padding-bottom: 4.5rem;
-		border-top: 1px solid var(--line);
 	}
 
 	.shows-layout .hero-carousel {
+		grid-area: 2 / 2;
 		margin-top: 2rem;
+	}
+
+	.shows {
+		grid-area: 2 / 1;
 	}
 
 	.section {

@@ -7,7 +7,8 @@ description: Maintain the clean editorial visual style of Tyler Leonhardt's impr
 
 The site should feel warm, quiet, and considered. Let typography, real performance
 photography, and generous whitespace do the work. Avoid theatre-themed decoration,
-ticket notches, dashed borders, gradients, emoji, novelty copy, and animated transforms.
+ticket notches, dashed borders, decorative gradients, emoji, novelty copy, and animated transforms.
+The mobile photo hero's contrast scrim is the functional exception.
 
 ## Site purpose
 
@@ -15,7 +16,7 @@ The site's main job is to be a quick reminder of upcoming performance dates.
 Everything else is secondary. Put upcoming shows directly after Tyler's name,
 before About; keep the first show visible in the initial mobile viewport.
 Photography must not push dates down: place the carousel beside shows on desktop
-and after the listings on mobile. Remove copy and controls that only point to
+and behind the name on mobile. Remove copy and controls that only point to
 information already in view.
 
 ## Tokens and type
@@ -40,8 +41,15 @@ The shared `.frame` is at most 64rem wide with 1.5rem mobile gutters.
 Use a 0.5rem-based spacing rhythm; sections have 3.5rem vertical padding on mobile
 and 4.5rem on desktop. Thin rules separate sections. Avoid card shadows and rounded pills.
 
-The hero is a compact name heading, followed by shows and an unobscured
-performance-photo carousel, stacked with shows first below 760px.
+The hero is a compact name heading, followed by shows with a performance-photo
+carousel beside them on desktop. Below 760px, the single carousel becomes a
+full-bleed photo hero behind the off-white name. Do not add a header wordmark.
+Keep the band at 42svh (roughly 40–45svh), with no separate mobile header height.
+The height budget must leave the first show's complete date and title inside the
+initial viewport at both 390×844 and 360×740. Shows follow immediately.
+Use a bottom dark gradient scrim; verify at least 4.5:1 name contrast against
+the brightest background beneath the text on every slide, not just an axe pass.
+Tune mobile object-position per photo so faces clear the name and controls.
 Show listings are ruled rows: compact date, title, Seattle-local time and venue,
 then ticket/calendar links. Optional show art is a secondary 3:2 thumbnail;
 omit the thumbnail entirely when there is no real art. Do not make images
@@ -62,7 +70,7 @@ motion for transitions and scrolling.
 ## Hero carousel
 
 Use `HeroCarousel.astro`, not a carousel library or a duplicate bottom gallery.
-Keep all images in the same 4:5 grid cell, with per-photo `object-position` to
+Keep all images in the same reserved grid cell (4:5 desktop, 42svh mobile), with per-photo `object-position` to
 preserve faces. Use optimized Astro images and responsive sizes; only the first
 photo is eager/high priority, the others are lazy.
 
@@ -73,8 +81,12 @@ Manual navigation pauses rotation until Play is selected; an explicit Pause must
 persist across hover/focus changes. Reduced motion disables autoplay, including
 the Play control, and removes the crossfade. Keep a static first photo without JS.
 
-Keep controls below the photo, with 44px targets, visible focus, Previous/Next,
-a photo count, and a Pause/Play control first in tab order. Label the carousel and
+On desktop, keep controls below the photo with Previous/Next and a photo count.
+On mobile, overlay a compact Pause/Play control and thin slide indicators in a
+top corner, backed by ink for contrast. Retain 44px targets, visible light focus
+on the image, accessible slide buttons with current state, and Pause/Play first
+in the carousel's tab order. Keep the nav right-aligned above the image.
+Label the carousel and
 numbered slides with ARIA roledescriptions; hide inactive slides from assistive
 technology. Announce manual changes politely, never every automatic advance.
 Support native button keyboard activation and Left/Right within the controls.
