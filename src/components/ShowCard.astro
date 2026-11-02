@@ -1,6 +1,6 @@
 ---
 import { googleCalendarUrl } from "../lib/ics";
-import { formatParts, hueFor, type Show } from "../lib/shows";
+import { formatParts, type Show } from "../lib/shows";
 
 interface Props {
 	show: Show;
@@ -10,27 +10,15 @@ interface Props {
 
 const { show, image, siteUrl } = Astro.props;
 const when = formatParts(show);
-const hue = hueFor(show.typeSlug);
 ---
 
-<li class="show" data-end={show.end.toISOString()} style={`--hue: ${hue}`}>
+<li class="show" data-end={show.end.toISOString()}>
 	<article>
-		<div class="show-art">
-			{
-				image ? (
-					<img src={image} alt={`${show.type} show art`} loading="lazy" decoding="async" />
-				) : (
-					<div class="placeholder" aria-hidden="true">
-						<span>{show.type}</span>
-					</div>
-				)
-			}
-		</div>
 		<div class="show-body">
-			<div class="stub" aria-hidden="true">
-				<span class="stub-month">{when.month}</span>
-				<span class="stub-day">{when.day}</span>
-				<span class="stub-weekday">{when.weekday}</span>
+			<div class="show-date" aria-hidden="true">
+				<span class="date-month">{when.month}</span>
+				<span class="date-day">{when.day}</span>
+				<span class="date-weekday">{when.weekday}</span>
 			</div>
 			<div class="show-info">
 				{show.title && show.title !== show.type && <p class="show-type">{show.type}</p>}
@@ -53,16 +41,27 @@ const hue = hueFor(show.typeSlug);
 					{
 						show.ticketUrl && (
 							<a class="btn btn-primary" href={show.ticketUrl} rel="noopener" target="_blank">
-								Tickets
+								Tickets <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">↗</span>
 							</a>
 						)
 					}
 					<a class="btn" href={`/shows/${show.id}.ics`}>Add to calendar</a>
 					<a class="btn btn-ghost" href={googleCalendarUrl(show, siteUrl)} rel="noopener" target="_blank">
-						Google Cal
+						Google Calendar <span class="sr-only">(opens in a new tab)</span>
 					</a>
 				</div>
 			</div>
+		</div>
+		<div class="show-art">
+			{
+				image ? (
+					<img src={image} alt={`${show.type} show art`} loading="lazy" decoding="async" width="240" height="160" />
+				) : (
+					<div class="placeholder" aria-hidden="true">
+						<span>Live<br />improv.</span>
+					</div>
+				)
+			}
 		</div>
 	</article>
 </li>

@@ -1,6 +1,4 @@
 ---
-import "@fontsource-variable/fraunces";
-import "@fontsource-variable/inter";
 import "../styles/global.css";
 import { Image } from "astro:assets";
 import bioPhoto from "../assets/photos/tyler-bio.webp";
@@ -19,7 +17,7 @@ const images = loadShowImages();
 const { upcoming, past } = splitShows(shows);
 
 const title = "Tyler Leonhardt · Improv";
-const description = "Seattle improviser. Come see a show! Upcoming dates for Seattle Comedy Theater, Dollbrick Improv, and more.";
+const description = "Tyler Leonhardt is a Seattle-based improviser with Seattle Comedy Theater and Dollbrick Improv. Find upcoming shows and get to know Tyler.";
 ---
 
 <!doctype html>
@@ -29,7 +27,7 @@ const description = "Seattle improviser. Come see a show! Upcoming dates for Sea
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#1c1814" />
+		<meta name="theme-color" content="#f8f7f3" />
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="canonical" href={siteUrl} />
 		<link rel="alternate" type="text/calendar" title="Tyler's shows" href="/shows.ics" />
@@ -39,48 +37,70 @@ const description = "Seattle improviser. Come see a show! Upcoming dates for Sea
 		<meta property="og:url" content={siteUrl} />
 	</head>
 	<body>
-		<header class="hero">
-			<Image
-				class="hero-photo"
-				src={heroPhoto}
-				alt="Tyler throws his arms wide in front of a glowing red arched window as the crowd cheers."
-				widths={[390, 640, 960]}
-				sizes="(min-width: 640px) 65vw, 100vw"
-				loading="eager"
-				fetchpriority="high"
-			/>
-			<div class="bulbs" aria-hidden="true"></div>
-			<div class="hero-inner">
-				<p class="eyebrow">Improviser · Seattle</p>
-				<h1>Tyler <em>Leonhardt</em></h1>
-				<a class="hero-cta" href="#shows">
-					When’s the next show? <span aria-hidden="true">↓</span>
-				</a>
-			</div>
+		<a class="skip-link" href="#main">Skip to content</a>
+		<header class="site-header frame">
+			<a class="wordmark" href="/" aria-label="Tyler Leonhardt, home">Tyler Leonhardt<span aria-hidden="true">.</span></a>
+			<nav aria-label="Main navigation">
+				<a href="#about">About</a>
+				<a href="#shows">Shows</a>
+			</nav>
 		</header>
 
-		<main>
-			<section class="bio" aria-labelledby="about-heading">
-				<h2 id="about-heading" class="section-label">About</h2>
-				<Image
-					class="bio-photo"
-					src={bioPhoto}
-					alt="Tyler performing in a dark denim shirt and rabbit tee, lit by warm stage lights beside warehouse windows."
-					widths={[120, 176, 240, 320]}
-					sizes="(min-width: 640px) 176px, 120px"
-				/>
-				<p>
-					Tyler Leonhardt has been making things up on stage in Seattle since 2023, and has been part of the{" "}
-					<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a> ensemble since 2025. He’s also a{" "}
-					founding member of the indie group <a href="https://dollbrickimprov.com">Dollbrick Improv</a>.
-				</p>
-				<p>Nothing is scripted and no two shows are the same, so come catch one. He’d love to see you there.</p>
+		<main id="main" class="frame" tabindex="-1">
+			<section class="hero" aria-labelledby="hero-heading">
+				<div class="hero-inner">
+					<p class="eyebrow">Improviser / Seattle, WA</p>
+					<h1 id="hero-heading">Tyler<br />Leonhardt</h1>
+					<p class="hero-intro">On stage, in the moment.<br />Improv made together in Seattle.</p>
+					<a class="hero-cta" href="#shows">See upcoming shows <span aria-hidden="true">↗</span></a>
+				</div>
+				<figure class="hero-figure">
+					<Image
+						class="hero-photo"
+						src={heroPhoto}
+						alt="Tyler on stage with his arms outstretched as an audience applauds."
+						widths={[390, 640, 960]}
+						sizes="(min-width: 1120px) 460px, (min-width: 760px) 43vw, calc(100vw - 3rem)"
+						loading="eager"
+						fetchpriority="high"
+					/>
+					<figcaption>A moment on stage, Seattle.</figcaption>
+				</figure>
 			</section>
 
-			<section id="shows" class="shows" aria-labelledby="shows-heading">
+			<section id="about" class="bio section" aria-labelledby="about-heading">
+				<div class="section-heading">
+					<p class="eyebrow" aria-hidden="true">01 / About</p>
+					<h2 id="about-heading">A bit about Tyler.</h2>
+				</div>
+				<div class="bio-content">
+					<div class="bio-copy">
+						<p>
+							Tyler Leonhardt has been making things up on stage in Seattle since 2023. He’s been part of the{" "}
+							<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a> ensemble since 2025 and is a founding member of{" "}
+							<a href="https://dollbrickimprov.com">Dollbrick Improv</a>.
+						</p>
+						<p>Every show starts with something different. Come spend an evening with us—he’d love to see you there.</p>
+					</div>
+					<Image
+						class="bio-photo"
+						src={bioPhoto}
+						alt="Tyler in a denim shirt, performing beside warmly lit warehouse windows."
+						widths={[160, 280, 400]}
+						sizes="(min-width: 760px) 140px, 100px"
+						loading="lazy"
+					/>
+				</div>
+			</section>
+
+			<section id="shows" class="shows section" aria-labelledby="shows-heading">
 				<div class="section-head">
-					<h2 id="shows-heading" class="section-label">Upcoming shows</h2>
-					<a class="subscribe" href="/shows.ics" data-subscribe>Subscribe</a>
+					<div class="section-heading">
+						<p class="eyebrow" aria-hidden="true">02 / Shows</p>
+						<h2 id="shows-heading">See you at a show.</h2>
+						<p class="section-description">Upcoming performances. All times are local to Seattle.</p>
+					</div>
+					<a class="subscribe" href="/shows.ics" data-subscribe>Subscribe to calendar <span aria-hidden="true">↗</span></a>
 				</div>
 
 				<ol class="show-list" data-upcoming>
@@ -88,8 +108,8 @@ const description = "Seattle improviser. Come see a show! Upcoming dates for Sea
 				</ol>
 
 				<div class="empty" data-empty hidden={upcoming.length > 0}>
-					<p class="empty-title">No shows on the calendar right now.</p>
-					<p>New dates land here as soon as they’re booked. Check back soon, or hit <em>Subscribe</em> to get them in your calendar automatically.</p>
+					<p class="empty-title">No upcoming shows just yet.</p>
+					<p>New dates will be posted here. Subscribe to the calendar to stay up to date.</p>
 				</div>
 
 				<details class="past" data-past hidden={past.length === 0}>
@@ -100,58 +120,74 @@ const description = "Seattle improviser. Come see a show! Upcoming dates for Sea
 				</details>
 			</section>
 
-			<section class="gallery" aria-labelledby="gallery-heading">
-				<h2 id="gallery-heading" class="section-label">A few unscripted moments</h2>
+			<section class="gallery section" aria-labelledby="gallery-heading">
+				<div class="section-heading">
+					<p class="eyebrow" aria-hidden="true">03 / On stage</p>
+					<h2 id="gallery-heading">In good company.</h2>
+				</div>
 				<div class="gallery-grid">
 					<figure>
 						<Image
 							src={jerseyPhoto}
-							alt="Tyler points finger guns at the camera in a red ComedySportz Seattle jersey against a brick wall."
-							widths={[180, 360, 600, 720]}
-							sizes="(min-width: 640px) 290px, calc((100vw - 3.5rem) / 2)"
+							alt="Tyler pointing toward the camera in a red ComedySportz Seattle jersey."
+							widths={[360, 600, 960]}
+							sizes="(min-width: 1120px) 496px, (min-width: 540px) calc((100vw - 5rem) / 2), calc(100vw - 3rem)"
 							loading="lazy"
 						/>
-						<figcaption>Yes, and… finger guns.</figcaption>
+						<figcaption>ComedySportz Seattle</figcaption>
 					</figure>
 					<figure>
 						<Image
 							src={scenePhoto}
 							alt="Tyler mid-scene in his red jersey on the CSz Seattle stage, with colorful stools and a brick set behind him."
-							widths={[180, 360, 600, 720]}
-							sizes="(min-width: 640px) 290px, calc((100vw - 3.5rem) / 2)"
+							widths={[360, 600, 960]}
+							sizes="(min-width: 1120px) 496px, (min-width: 540px) calc((100vw - 5rem) / 2), calc(100vw - 3rem)"
 							loading="lazy"
 						/>
-						<figcaption>Making it up at CSz Seattle.</figcaption>
+						<figcaption>A scene at CSz Seattle</figcaption>
 					</figure>
 				</div>
 			</section>
 		</main>
 
-		<footer>
-			<p>
+		<footer class="site-footer frame">
+			<div>
+				<p class="footer-name">Tyler Leonhardt</p>
+				<p>Improv, in Seattle.</p>
+			</div>
+			<div class="footer-links">
 				<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a>
-				<span aria-hidden="true">{" "}·{" "}</span>
 				<a href="https://dollbrickimprov.com">Dollbrick Improv</a>
-			</p>
-			<p class="fine">Calendar feed: <a href="/shows.ics" data-feed-url>/shows.ics</a></p>
+				<a href="/shows.ics">Calendar feed</a>
+			</div>
 		</footer>
 
 		<script is:inline>
 			(() => {
-				const now = Date.now();
 				const upcoming = document.querySelector("[data-upcoming]");
 				const pastList = document.querySelector("[data-past-list]");
-				const ended = [...upcoming.children].filter((li) => Date.parse(li.dataset.end) <= now);
-				// Upcoming is oldest-first; past is newest-first.
-				for (const li of ended) pastList.prepend(li);
-				document.querySelector("[data-empty]").hidden = upcoming.children.length > 0;
-				document.querySelector("[data-past]").hidden = pastList.children.length === 0;
-				document.querySelector("[data-past-count]").textContent = String(pastList.children.length);
+				let timer;
+				function refreshShows() {
+					clearTimeout(timer);
+					const now = Date.now();
+					const ended = [...upcoming.children].filter((li) => Date.parse(li.dataset.end) <= now);
+					// Upcoming is oldest-first; past is newest-first.
+					for (const li of ended) pastList.prepend(li);
+					document.querySelector("[data-empty]").hidden = upcoming.children.length > 0;
+					document.querySelector("[data-past]").hidden = pastList.children.length === 0;
+					document.querySelector("[data-past-count]").textContent = String(pastList.children.length);
+					const nextEnd = Math.min(...[...upcoming.children].map((li) => Date.parse(li.dataset.end)));
+					if (Number.isFinite(nextEnd)) {
+						timer = setTimeout(refreshShows, Math.min(nextEnd - now, 2_147_483_647));
+					}
+				}
+				refreshShows();
+				window.addEventListener("pageshow", refreshShows);
+				document.addEventListener("visibilitychange", () => {
+					if (!document.hidden) refreshShows();
+				});
 				const feed = `${location.host}/shows.ics`;
 				document.querySelector("[data-subscribe]").href = `webcal://${feed}`;
-				const feedLink = document.querySelector("[data-feed-url]");
-				feedLink.textContent = `${location.protocol}//${feed}`;
-				feedLink.href = `${location.protocol}//${feed}`;
 			})();
 		</script>
 	</body>
