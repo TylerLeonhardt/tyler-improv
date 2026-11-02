@@ -49,6 +49,9 @@ The height budget must leave the first show's complete date and title inside the
 initial viewport at both 390×844 and 360×740. Shows follow immediately.
 Use a bottom dark gradient scrim; verify at least 4.5:1 name contrast against
 the brightest background beneath the text on every slide, not just an axe pass.
+Use a soft top dark scrim fading to transparent toward the middle for mobile
+navigation and controls; never put solid chrome boxes over photos. Verify text
+at 4.5:1 and non-text controls at 3:1 on every slide at 390×844 and 360×740.
 Tune mobile object-position per photo so faces clear the name and controls.
 Show listings are ruled rows: compact date, title, Seattle-local time and venue,
 then ticket/calendar links. Optional show art is a secondary 3:2 thumbnail;
@@ -82,8 +85,9 @@ persist across hover/focus changes. Reduced motion disables autoplay, including
 the Play control, and removes the crossfade. Keep a static first photo without JS.
 
 On desktop, keep controls below the photo with Previous/Next and a photo count.
-On mobile, overlay a compact Pause/Play control and thin slide indicators in a
-top corner, backed by ink for contrast. Retain 44px targets, visible light focus
+On mobile, overlay a small accessible Pause/Play icon and thin slide indicators in a
+top corner, aligned with the right-hand nav over the shared top scrim, not solid
+background boxes. Retain 44px targets, visible light focus
 on the image, accessible slide buttons with current state, and Pause/Play first
 in the carousel's tab order. Keep the nav right-aligned above the image.
 Label the carousel and
