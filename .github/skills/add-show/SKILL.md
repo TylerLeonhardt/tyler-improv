@@ -21,6 +21,10 @@ Everything about shows lives in **one file**: `src/data/shows.json`. Images live
 | `notes`           | no       | One short sentence, e.g. `"Pay what you can"` or `"Doors at 7"`.              |
 | `durationMinutes` | no       | Whole number, default `90`. Only used for calendar end times.                 |
 
+If the venue is unconfirmed and no existing record identifies it, omit `venue`; never guess.
+Report it as unconfirmed: the site currently displays Seattle Comedy Theater when `venue` is omitted.
+Omit `ticketUrl` when no ticket link is supplied.
+
 No other fields are allowed; typos like `ticketURL` fail validation on purpose.
 
 If Tyler only says "Friday at 7:30", resolve it to a concrete date and **confirm it back** in your reply.
@@ -108,3 +112,14 @@ gh pr create --repo TylerLeonhardt/tyler-improv --title "Add show: Friday Night 
 
 Wait for CI to be green (`gh pr checks <n> --repo TylerLeonhardt/tyler-improv --watch`).
 Report back the PR link and a one-line summary of the show(s) as they'll appear (date, time, type, venue).
+
+### Updating without a local checkout
+
+If another agent owns the checkout, do not switch branches or edit its files. Read the base
+with `git show origin/main:src/data/shows.json` and confirm `origin/main` matches remote `main`.
+Prepare the updated JSON outside the repo (or in memory if temporary writes are blocked) and
+validate it with the base revision's `src/lib/shows.ts` schema and parsing logic. Create a remote
+feature ref and commit via the GitHub Contents or Git Data API, preserving existing shows and
+using the base file SHA for Contents API updates. Open the PR with `gh pr create --head <branch>`,
+wait for CI tests and build to pass, and verify any available preview's show count, dates, and
+Seattle times before merging. Do not retry denied worktree or clone operations.
