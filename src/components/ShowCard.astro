@@ -52,16 +52,10 @@ const when = formatParts(show);
 				</div>
 			</div>
 		</div>
-		<div class="show-art">
-			{
-				image ? (
-					<img src={image} alt={`${show.type} show art`} loading="lazy" decoding="async" width="240" height="160" />
-				) : (
-					<div class="placeholder" aria-hidden="true">
-						<span>Live<br />improv.</span>
-					</div>
-				)
-			}
-		</div>
+		{image && (
+			<div class="show-art">
+				<img src={image} alt={`${show.type} show art`} loading="lazy" decoding="async" width="240" height="160" />
+			</div>
+		)}
 	</article>
 </li>

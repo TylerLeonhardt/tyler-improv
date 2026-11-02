@@ -21,7 +21,7 @@ Optional fields: `title`, `venue` (defaults to Seattle Comedy Theater), `ticketU
 Times are 24-hour Seattle time. Past shows collapse into a "Past shows" section automatically.
 
 **Images:** put one image per show type at `public/images/shows/<type-slug>.jpg`
-(`"Friday Night Ensemble"` → `friday-night-ensemble.jpg`). Types without an image get a colored placeholder.
+(`"Friday Night Ensemble"` → `friday-night-ensemble.jpg`). Types without an image omit the thumbnail.
 
 Full instructions (for humans and agents): [`.github/skills/add-show/SKILL.md`](.github/skills/add-show/SKILL.md).
 

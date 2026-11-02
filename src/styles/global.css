@@ -219,7 +219,86 @@ img {
 	height: auto;
 	aspect-ratio: 4 / 5;
 	object-fit: cover;
-	object-position: 50% 62%;
+}
+
+.hero-carousel {
+	min-width: 0;
+}
+
+.carousel-slides {
+	display: grid;
+}
+
+.carousel-slide {
+	grid-area: 1 / 1;
+	min-width: 0;
+	pointer-events: none;
+}
+
+.carousel-slide .hero-photo {
+	opacity: 0;
+	transition: opacity 1200ms ease-in-out;
+}
+
+.carousel-slide[data-active] .hero-photo {
+	opacity: 1;
+}
+
+.carousel-slide figcaption {
+	visibility: hidden;
+}
+
+.carousel-slide[data-active] figcaption {
+	visibility: visible;
+}
+
+.carousel-controls {
+	display: flex;
+	visibility: hidden;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
+}
+
+.hero-carousel[data-ready] .carousel-controls {
+	visibility: visible;
+}
+
+.carousel-controls button {
+	min-width: 44px;
+	min-height: 44px;
+	padding: 0.5rem;
+	border: 0;
+	background: transparent;
+	color: var(--accent);
+	font: inherit;
+	font-size: 0.75rem;
+	text-decoration: underline;
+	text-underline-offset: 0.25em;
+	cursor: pointer;
+}
+
+.carousel-controls [data-rotation] {
+	min-width: 6rem;
+	text-align: left;
+	padding-left: 0;
+}
+
+.carousel-controls button:hover {
+	color: var(--ink);
+}
+
+.carousel-controls button:disabled {
+	color: var(--muted);
+	text-decoration: none;
+	cursor: default;
+}
+
+.carousel-count {
+	flex: 1;
+	color: var(--muted);
+	font-size: 0.75rem;
+	font-variant-numeric: tabular-nums;
 }
 
 figcaption {
@@ -254,7 +333,6 @@ figcaption {
 
 .bio-copy p:last-child {
 	margin-bottom: 0;
-	color: var(--muted);
 }
 
 .bio-photo {
@@ -399,19 +477,6 @@ figcaption {
 	object-fit: cover;
 }
 
-.placeholder {
-	display: flex;
-	align-items: center;
-	height: 100%;
-	padding: 1rem;
-	background: var(--surface);
-	color: var(--accent);
-	font-family: var(--display);
-	font-size: 1.35rem;
-	line-height: 1.1;
-	letter-spacing: -0.035em;
-}
-
 .empty {
 	padding: clamp(1.75rem, 5vw, 3rem);
 	background: var(--surface);
@@ -463,19 +528,6 @@ figcaption {
 	padding-block: 1.25rem;
 }
 
-.gallery-grid {
-	display: grid;
-	gap: 2rem;
-	margin-top: 2rem;
-}
-
-.gallery img {
-	width: 100%;
-	height: auto;
-	aspect-ratio: 4 / 5;
-	object-fit: cover;
-}
-
 .site-footer {
 	display: flex;
 	justify-content: space-between;
@@ -516,10 +568,6 @@ figcaption {
 }
 
 @media (min-width: 540px) {
-	.gallery-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
 	.show-art {
 		display: block;
 	}
@@ -573,7 +621,8 @@ figcaption {
 		scroll-behavior: auto;
 	}
 
-	a {
+	a,
+	.carousel-slide .hero-photo {
 		transition: none;
 	}
 }
