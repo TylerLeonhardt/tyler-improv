@@ -1,0 +1,134 @@
+---
+import { Image } from "astro:assets";
+import heroPhoto from "../assets/photos/tyler-onstage.webp";
+import jerseyPhoto from "../assets/photos/tyler-comedysportz.webp";
+import scenePhoto from "../assets/photos/tyler-csz-seattle.webp";
+
+const photos = [
+	{
+		src: heroPhoto,
+		alt: "Tyler on stage with his arms outstretched as an audience applauds.",
+		caption: "On stage in Seattle",
+		position: "50% 62%",
+	},
+	{
+		src: jerseyPhoto,
+		alt: "Tyler pointing toward the camera in a red ComedySportz Seattle jersey.",
+		caption: "ComedySportz Seattle",
+		position: "50% 65%",
+	},
+	{
+		src: scenePhoto,
+		alt: "Tyler mid-scene in his red jersey on the CSz Seattle stage, with colorful stools and a brick set behind him.",
+		caption: "CSz Seattle",
+		position: "50% 50%",
+	},
+];
+---
+
+<div class="hero-carousel" role="region" aria-roledescription="carousel" aria-label="Tyler's performance photos" data-carousel>
+	<div class="carousel-slides" aria-live="off">
+		{photos.map((photo, index) => (
+			<figure
+				class="carousel-slide"
+				role="group"
+				aria-roledescription="slide"
+				aria-label={`${index + 1} of ${photos.length}: ${photo.caption}`}
+				aria-hidden={index !== 0 ? "true" : undefined}
+				data-active={index === 0 ? "" : undefined}
+			>
+				<Image
+					class="hero-photo"
+					src={photo.src}
+					alt={photo.alt}
+					widths={[390, 640, photo.src.width]}
+					sizes="(min-width: 1120px) 460px, (min-width: 760px) 43vw, calc(100vw - 3rem)"
+					loading={index === 0 ? "eager" : "lazy"}
+					fetchpriority={index === 0 ? "high" : "auto"}
+					style={`object-position: ${photo.position}`}
+				/>
+				<figcaption>{photo.caption}</figcaption>
+			</figure>
+		))}
+	</div>
+	<div class="carousel-controls" inert>
+		<button type="button" data-rotation>Pause</button>
+		<span class="carousel-count" aria-hidden="true" data-count>1 / 3</span>
+		<button type="button" data-previous aria-label="Previous photo">Previous</button>
+		<button type="button" data-next aria-label="Next photo">Next</button>
+	</div>
+	<p class="sr-only" role="status" data-status></p>
+</div>
+
+<script>
+	const carousel = document.querySelector<HTMLElement>("[data-carousel]");
+	if (carousel) {
+		const slides = [...carousel.querySelectorAll<HTMLElement>(".carousel-slide")];
+		const controls = carousel.querySelector<HTMLElement>(".carousel-controls")!;
+		const rotation = carousel.querySelector<HTMLButtonElement>("[data-rotation]")!;
+		const previous = carousel.querySelector<HTMLButtonElement>("[data-previous]")!;
+		const next = carousel.querySelector<HTMLButtonElement>("[data-next]")!;
+		const count = carousel.querySelector<HTMLElement>("[data-count]")!;
+		const status = carousel.querySelector<HTMLElement>("[data-status]")!;
+		const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+		let current = 0;
+		let paused = false;
+		let hovered = false;
+		let focused = false;
+		let timer: ReturnType<typeof setTimeout>;
+
+		function schedule() {
+			clearTimeout(timer);
+			rotation.disabled = reducedMotion.matches;
+			rotation.textContent = reducedMotion.matches ? "Autoplay off" : paused ? "Play" : "Pause";
+			rotation.setAttribute("aria-label", reducedMotion.matches
+				? "Autoplay off: reduced motion"
+				: paused ? "Play slideshow" : "Pause slideshow");
+			if (!paused && !hovered && !focused && !reducedMotion.matches && !document.hidden) {
+				timer = setTimeout(() => {
+					show(current + 1);
+					schedule();
+				}, 8000);
+			}
+		}
+
+		function show(index: number, manual = false) {
+			current = (index + slides.length) % slides.length;
+			slides.forEach((slide, i) => {
+				slide.toggleAttribute("data-active", i === current);
+				if (i === current) slide.removeAttribute("aria-hidden");
+				else slide.setAttribute("aria-hidden", "true");
+			});
+			count.textContent = `${current + 1} / ${slides.length}`;
+			if (manual) {
+				paused = true;
+				status.textContent = slides[current].getAttribute("aria-label");
+				schedule();
+			}
+		}
+
+		previous.addEventListener("click", () => show(current - 1, true));
+		next.addEventListener("click", () => show(current + 1, true));
+		rotation.addEventListener("click", () => {
+			paused = !paused;
+			schedule();
+		});
+		carousel.addEventListener("mouseenter", () => { hovered = true; schedule(); });
+		carousel.addEventListener("mouseleave", () => { hovered = false; schedule(); });
+		carousel.addEventListener("focusin", () => { focused = true; schedule(); });
+		carousel.addEventListener("focusout", (event) => {
+			focused = event.relatedTarget instanceof Node && carousel.contains(event.relatedTarget);
+			schedule();
+		});
+		controls.addEventListener("keydown", (event) => {
+			if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+			event.preventDefault();
+			show(current + (event.key === "ArrowRight" ? 1 : -1), true);
+		});
+		reducedMotion.addEventListener("change", schedule);
+		document.addEventListener("visibilitychange", schedule);
+		controls.inert = false;
+		carousel.setAttribute("data-ready", "");
+		schedule();
+	}
+</script>

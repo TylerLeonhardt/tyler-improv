@@ -2,9 +2,7 @@
 import "../styles/global.css";
 import { Image } from "astro:assets";
 import bioPhoto from "../assets/photos/tyler-bio.webp";
-import heroPhoto from "../assets/photos/tyler-onstage.webp";
-import jerseyPhoto from "../assets/photos/tyler-comedysportz.webp";
-import scenePhoto from "../assets/photos/tyler-csz-seattle.webp";
+import HeroCarousel from "../components/HeroCarousel.astro";
 import ShowCard from "../components/ShowCard.astro";
 import { loadShowImages, loadShows } from "../lib/data";
 import { splitShows } from "../lib/shows";
@@ -17,7 +15,7 @@ const images = loadShowImages();
 const { upcoming, past } = splitShows(shows);
 
 const title = "Tyler Leonhardt · Improv";
-const description = "Tyler Leonhardt is a Seattle-based improviser with Seattle Comedy Theater and Dollbrick Improv. Find upcoming shows and get to know Tyler.";
+const description = "Tyler Leonhardt is a Seattle-based improviser with Seattle Comedy Theater and Dollbrick Improv. Find show dates, venues, and tickets.";
 ---
 
 <!doctype html>
@@ -49,38 +47,26 @@ const description = "Tyler Leonhardt is a Seattle-based improviser with Seattle 
 		<main id="main" class="frame" tabindex="-1">
 			<section class="hero" aria-labelledby="hero-heading">
 				<div class="hero-inner">
-					<p class="eyebrow">Improviser / Seattle, WA</p>
+					<p class="eyebrow">Seattle improviser</p>
 					<h1 id="hero-heading">Tyler<br />Leonhardt</h1>
-					<p class="hero-intro">On stage, in the moment.<br />Improv made together in Seattle.</p>
+					<p class="hero-intro">Find my next show.<br />Dates, venues, and tickets below.</p>
 					<a class="hero-cta" href="#shows">See upcoming shows <span aria-hidden="true">↗</span></a>
 				</div>
-				<figure class="hero-figure">
-					<Image
-						class="hero-photo"
-						src={heroPhoto}
-						alt="Tyler on stage with his arms outstretched as an audience applauds."
-						widths={[390, 640, 960]}
-						sizes="(min-width: 1120px) 460px, (min-width: 760px) 43vw, calc(100vw - 3rem)"
-						loading="eager"
-						fetchpriority="high"
-					/>
-					<figcaption>A moment on stage, Seattle.</figcaption>
-				</figure>
+				<HeroCarousel />
 			</section>
 
 			<section id="about" class="bio section" aria-labelledby="about-heading">
 				<div class="section-heading">
 					<p class="eyebrow" aria-hidden="true">01 / About</p>
-					<h2 id="about-heading">A bit about Tyler.</h2>
+					<h2 id="about-heading">About Tyler</h2>
 				</div>
 				<div class="bio-content">
 					<div class="bio-copy">
 						<p>
-							Tyler Leonhardt has been making things up on stage in Seattle since 2023. He’s been part of the{" "}
+							Tyler Leonhardt has performed improv in Seattle since 2023. He’s been part of the{" "}
 							<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a> ensemble since 2025 and is a founding member of{" "}
 							<a href="https://dollbrickimprov.com">Dollbrick Improv</a>.
 						</p>
-						<p>Every show starts with something different. Come spend an evening with us—he’d love to see you there.</p>
 					</div>
 					<Image
 						class="bio-photo"
@@ -97,8 +83,8 @@ const description = "Tyler Leonhardt is a Seattle-based improviser with Seattle 
 				<div class="section-head">
 					<div class="section-heading">
 						<p class="eyebrow" aria-hidden="true">02 / Shows</p>
-						<h2 id="shows-heading">See you at a show.</h2>
-						<p class="section-description">Upcoming performances. All times are local to Seattle.</p>
+						<h2 id="shows-heading">Upcoming shows</h2>
+						<p class="section-description">All times are Seattle local time.</p>
 					</div>
 					<a class="subscribe" href="/shows.ics" data-subscribe>Subscribe to calendar <span aria-hidden="true">↗</span></a>
 				</div>
@@ -108,8 +94,8 @@ const description = "Tyler Leonhardt is a Seattle-based improviser with Seattle 
 				</ol>
 
 				<div class="empty" data-empty hidden={upcoming.length > 0}>
-					<p class="empty-title">No upcoming shows just yet.</p>
-					<p>New dates will be posted here. Subscribe to the calendar to stay up to date.</p>
+					<p class="empty-title">No upcoming shows listed.</p>
+					<p>Subscribe to the calendar for new dates.</p>
 				</div>
 
 				<details class="past" data-past hidden={past.length === 0}>
@@ -119,41 +105,12 @@ const description = "Tyler Leonhardt is a Seattle-based improviser with Seattle 
 					</ol>
 				</details>
 			</section>
-
-			<section class="gallery section" aria-labelledby="gallery-heading">
-				<div class="section-heading">
-					<p class="eyebrow" aria-hidden="true">03 / On stage</p>
-					<h2 id="gallery-heading">In good company.</h2>
-				</div>
-				<div class="gallery-grid">
-					<figure>
-						<Image
-							src={jerseyPhoto}
-							alt="Tyler pointing toward the camera in a red ComedySportz Seattle jersey."
-							widths={[360, 600, 960]}
-							sizes="(min-width: 1120px) 496px, (min-width: 540px) calc((100vw - 5rem) / 2), calc(100vw - 3rem)"
-							loading="lazy"
-						/>
-						<figcaption>ComedySportz Seattle</figcaption>
-					</figure>
-					<figure>
-						<Image
-							src={scenePhoto}
-							alt="Tyler mid-scene in his red jersey on the CSz Seattle stage, with colorful stools and a brick set behind him."
-							widths={[360, 600, 960]}
-							sizes="(min-width: 1120px) 496px, (min-width: 540px) calc((100vw - 5rem) / 2), calc(100vw - 3rem)"
-							loading="lazy"
-						/>
-						<figcaption>A scene at CSz Seattle</figcaption>
-					</figure>
-				</div>
-			</section>
 		</main>
 
 		<footer class="site-footer frame">
 			<div>
 				<p class="footer-name">Tyler Leonhardt</p>
-				<p>Improv, in Seattle.</p>
+				<p>Seattle improviser</p>
 			</div>
 			<div class="footer-links">
 				<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a>

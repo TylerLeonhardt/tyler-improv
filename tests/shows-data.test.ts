@@ -55,12 +55,12 @@ describe(`${SHOW_IMAGES_DIR}/`, () => {
 		expect(dupes, "two images for the same type; delete one").toEqual([]);
 	});
 
-	it("reports show types that still use the placeholder (info only)", () => {
+	it("reports show types without images (info only)", () => {
 		const images = loadShowImages();
 		const missing = [...new Set(loadShows().map((s) => s.type))].filter((t) => !images.has(slugify(t)));
 		if (missing.length) {
 			console.info(
-				`Show types using the placeholder image: ${missing.map((t) => `"${t}" -> ${SHOW_IMAGES_DIR}/${slugify(t)}.jpg`).join(", ")}`,
+				`Show types without images: ${missing.map((t) => `"${t}" -> ${SHOW_IMAGES_DIR}/${slugify(t)}.jpg`).join(", ")}`,
 			);
 		}
 	});

@@ -70,8 +70,8 @@ To **edit** a show, change its fields in place. To **cancel** one, delete its ob
 
 ## 3. (Optional) Add a show-type image
 
-One image per show **type**; every show with that type uses it. Types without an image get an
-auto-generated colored placeholder, so an image is never required.
+One image per show **type**; every show with that type uses it. Types without an image omit
+the thumbnail, so an image is never required.
 
 1. File name = the type's slug + extension: lowercase, non-alphanumerics become `-`, `&` becomes `and`, apostrophes dropped.
    - `"Friday Night Ensemble"` → `public/images/shows/friday-night-ensemble.jpg`
@@ -88,7 +88,7 @@ auto-generated colored placeholder, so an image is never required.
    the final assets. If an image arrives through chat, stage the attachment in `.incoming-photos/`
    and follow the same process.
 
-`npm test` prints which types are still using the placeholder.
+`npm test` prints which types have no show image.
 
 ## 4. Validate
 
