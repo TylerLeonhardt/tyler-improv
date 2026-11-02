@@ -92,6 +92,18 @@ describe("parseShows", () => {
 });
 
 describe("splitShows", () => {
+	it("keeps shows before November 2, 2026 out of upcoming across Seattle's DST change", () => {
+		const shows = parseShows([
+			{ ...base, date: "2026-10-31" },
+			{ ...base, date: "2026-11-01" },
+			{ ...base, date: "2026-11-02" },
+			{ ...base, date: "2026-11-03" },
+		]);
+		const { upcoming, past } = splitShows(shows, new Date("2026-11-02T07:23:34-08:00"));
+		expect(upcoming.map((show) => show.date)).toEqual(["2026-11-02", "2026-11-03"]);
+		expect(past.map((show) => show.date)).toEqual(["2026-11-01", "2026-10-31"]);
+	});
+
 	it("moves a show to past once it has ended", () => {
 		const shows = parseShows([base, { ...base, date: "2030-01-04" }]);
 		const [early, later] = shows;
