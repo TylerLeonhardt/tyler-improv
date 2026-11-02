@@ -35,7 +35,7 @@ A JSON array of objects. All times are Seattle local time.
 - `src/pages/index.astro`, `src/components/ShowCard.astro`, `src/styles/global.css`: the page.
 - `src/pages/shows.ics.ts` → `/shows.ics` subscribable feed; `src/pages/shows/[id].ics.ts` → per-show "Add to calendar".
 - `public/images/shows/`: one image per show type.
-- `src/assets/photos/`: optimized bio, hero, and gallery photos; Astro generates responsive image sizes.
+- `src/assets/photos/`: optimized bio and hero-carousel photos; Astro generates responsive image sizes.
 
 ## Incoming photos
 
