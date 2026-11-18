@@ -105,7 +105,8 @@ Optional local preview: `npm run dev`, then open the printed URL.
 
 ## 5. Ship
 
-Never push to `main`. Use a branch + PR; merging to `main` auto-deploys via Cloudflare Pages.
+Never push to `main`. Use a branch + PR; merging to `main` triggers a production
+build through Cloudflare Pages' native GitHub integration (`tyler-improv` project).
 
 ```bash
 git checkout main && git pull
@@ -118,6 +119,13 @@ gh pr create --repo TylerLeonhardt/tyler-improv --title "Add show: Friday Night 
 
 Wait for CI to be green (`gh pr checks <n> --repo TylerLeonhardt/tyler-improv --watch`).
 Report back the PR link and a one-line summary of the show(s) as they'll appear (date, time, type, venue).
+
+If merging is authorized, wait for the production deployment of the merge commit
+to succeed, then verify https://tyler-improv.pages.dev and
+https://tyler-improv.pages.dev/shows.ics show the expected dates and calendar
+entries. Check the live Tickets link. Past dates stay collapsed; do not mistake
+a PR preview deployment for production. See `../deploy/SKILL.md` for deployment
+status and manual redeploy commands.
 
 ### Updating without a local checkout
 
