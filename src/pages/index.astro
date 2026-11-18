@@ -4,6 +4,7 @@ import displayFont from "@fontsource-variable/playfair-display/files/playfair-di
 import bodyFont from "@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2?url";
 import { Image } from "astro:assets";
 import bioPhoto from "../assets/photos/tyler-bio.webp";
+import ExternalArrow from "../components/ExternalArrow.astro";
 import HeroCarousel from "../components/HeroCarousel.astro";
 import ShowCard from "../components/ShowCard.astro";
 import { loadShowImages, loadShows } from "../lib/data";
@@ -60,7 +61,7 @@ const description = "I'm Tyler Leonhardt, a Seattle-based improviser with Seattl
 							<h2 id="shows-heading">Upcoming shows</h2>
 							<p class="section-description">All times are Seattle local time.</p>
 						</div>
-						<a class="subscribe" href="/shows.ics" data-subscribe>Subscribe to calendar <span aria-hidden="true">↗</span></a>
+						<a class="subscribe" href="/shows.ics" data-subscribe>Subscribe to calendar <ExternalArrow /></a>
 					</div>
 
 					<ol class="show-list" data-upcoming>
@@ -91,7 +92,7 @@ const description = "I'm Tyler Leonhardt, a Seattle-based improviser with Seattl
 						<p>
 							I’ve performed improv in Seattle since 2023. I’ve been part of the{" "}
 							<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a> ensemble since 2025 and I’m a founding member of{" "}
-							<a href="https://dollbrickimprov.com">Dollbrick Improv</a>.
+							<a href="https://dollbrick.com">Dollbrick Improv</a>.
 						</p>
 					</div>
 					<Image
@@ -112,7 +113,7 @@ const description = "I'm Tyler Leonhardt, a Seattle-based improviser with Seattl
 			</div>
 			<div class="footer-links">
 				<a href="https://seattlecomedytheater.com">Seattle Comedy Theater</a>
-				<a href="https://dollbrickimprov.com">Dollbrick Improv</a>
+				<a href="https://dollbrick.com">Dollbrick Improv</a>
 				<a href="/shows.ics">Calendar feed</a>
 			</div>
 		</footer>
