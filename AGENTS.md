@@ -3,6 +3,18 @@
 Tyler Leonhardt's improv site: a short bio plus a list of upcoming shows. Astro static site, deployed to
 Cloudflare Pages from `main`.
 
+Live URL: **https://tyler-improv.pages.dev**. Pages project `tyler-improv` is
+connected through Cloudflare's native GitHub integration: pushes to `main`
+trigger production builds (`npm run build`, output `dist`, Node `22.22.1` from
+`.nvmrc`); other branches get previews. GitHub CI is a separate check, not the
+deployment mechanism. Wait for green PR checks before merging.
+
+For deploy verification or manual redeployment, follow
+`.github/skills/deploy/SKILL.md`. Verify the production commit and the live page
+and `/shows.ics`; a green preview check alone does not prove production is live.
+No GitHub deploy secrets are required. Touch only this Pages project, never
+other account resources or custom domains without explicit owner direction.
+
 ## Most common task: adding a show
 
 Follow `.github/skills/add-show/SKILL.md`. In short: edit **only** `src/data/shows.json`
