@@ -30,10 +30,37 @@ Use the existing tokens in `src/styles/global.css`, not one-off colors:
 - `--accent: #304e41`: deep green links, actions, and date markers.
 - `--line: #d7dad2`: decorative rules, never the only indication of an interactive control.
 
-Fraunces Variable is the display face: regular, non-italic, with `SOFT` and `WONK`
-set to zero. Inter Variable is the body face. Both are self-hosted Latin subsets.
-Keep headings light and tightly tracked; body text uses comfortable 1.7 line height.
+Playfair Display Variable is the display face; Source Sans 3 Variable is the body
+face. Both are self-hosted Fontsource Latin `wght` subsets, normal style, with
+`font-display: swap`. Headings use 400; show titles and date numerals use 500.
+Body text uses comfortable 1.7 line height; actions use 600.
 Small uppercase labels are for section context, not long sentences.
+
+### Changing fonts
+
+Keep the Fontsource variable-package loading pattern: update dependencies and
+lockfile, both `@font-face` URLs and family tokens in `src/styles/global.css`,
+and the matching two preload imports in `src/pages/index.astro`. Remove obsolete
+packages and variation-axis settings. Do not add a remote font service.
+
+The owner selected option 1 from the November 2, 2026 exploration: Playfair Display
++ Source Sans 3. Its name tuning is 5.875rem desktop maximum,
+`clamp(3.2rem, 14.1vw, 5rem)` mobile, 1.04 line height, and -0.045em tracking.
+Section headings track at -0.035em; show titles at -0.015em; date numerals at
+-0.035em with lining/tabular numerals.
+
+Local Georgia/Arial fallback faces use `size-adjust` and ascent/descent overrides.
+These are specific to the current fonts: Playfair's units/ascent/descent are
+1000/1082/-251; Source Sans's are 1000/1024/-400. Size adjustments match the name
+and representative UI text widths (101.37% and 91.86% respectively); vertical
+overrides are font metrics divided by that adjustment. Recalculate for a new
+pairing and test delayed/blocked font loads, not just a warm cache.
+
+Validate a production build at 390×844, 360×740, and 1440×1000. Inspect every hero
+slide, name wrapping, photo-overlay contrast, readable metadata and Tickets,
+and verify the first complete ticket button remains above the fold on phones.
+Capture real PNG screenshots outside the repository. Browser/axe checks may
+use session-local tooling; there is no checked-in browser test runner.
 
 ## Layout and components
 

@@ -1,17 +1,36 @@
 @font-face {
-	font-family: "Fraunces Variable";
+	font-family: "Playfair Display Variable";
 	font-style: normal;
-	font-weight: 100 900;
+	font-weight: 400 900;
 	font-display: swap;
-	src: url("@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2") format("woff2");
+	src: url("@fontsource-variable/playfair-display/files/playfair-display-latin-wght-normal.woff2") format("woff2");
 }
 
 @font-face {
-	font-family: "Inter Variable";
+	font-family: "Source Sans 3 Variable";
 	font-style: normal;
-	font-weight: 100 900;
+	font-weight: 200 900;
 	font-display: swap;
-	src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2") format("woff2");
+	src: url("@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2") format("woff2");
+}
+
+/* Match local fallback widths and vertical metrics to the preloaded Latin faces. */
+@font-face {
+	font-family: "Playfair Fallback";
+	src: local("Georgia");
+	size-adjust: 101.37%;
+	ascent-override: 106.74%;
+	descent-override: 24.76%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: "Source Sans Fallback";
+	src: local("Arial");
+	size-adjust: 91.86%;
+	ascent-override: 111.47%;
+	descent-override: 43.54%;
+	line-gap-override: 0%;
 }
 
 :root {
@@ -21,8 +40,8 @@
 	--muted: #626963;
 	--accent: #304e41;
 	--line: #d7dad2;
-	--display: "Fraunces Variable", Georgia, "Times New Roman", serif;
-	--body: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+	--display: "Playfair Display Variable", "Playfair Fallback", Georgia, "Times New Roman", serif;
+	--body: "Source Sans 3 Variable", "Source Sans Fallback", Arial, sans-serif;
 	color-scheme: light;
 }
 
@@ -43,7 +62,6 @@ body {
 	background: var(--paper);
 	color: var(--ink);
 	font-family: var(--body);
-	font-variation-settings: "SOFT" 0, "WONK" 0;
 	font-size: 1rem;
 	line-height: 1.7;
 	-webkit-font-smoothing: antialiased;
@@ -112,14 +130,14 @@ a:hover {
 .footer-name {
 	font-family: var(--display);
 	font-size: 1.3rem;
-	font-weight: 450;
+	font-weight: 400;
 	letter-spacing: -0.035em;
 }
 
 nav {
 	display: flex;
 	gap: clamp(1rem, 3vw, 2rem);
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 }
 
 nav a {
@@ -132,22 +150,21 @@ h2,
 h3,
 .empty-title {
 	font-family: var(--display);
-	font-variation-settings: "SOFT" 0, "WONK" 0;
 	font-weight: 400;
 }
 
 h1 {
 	margin: 0;
-	font-size: clamp(3.5rem, 7.5vw, 6rem);
-	line-height: 1.02;
-	letter-spacing: -0.065em;
+	font-size: clamp(3.5rem, 7.5vw, 5.875rem);
+	line-height: 1.04;
+	letter-spacing: -0.045em;
 }
 
 h2 {
 	margin: 0;
 	font-size: clamp(2rem, 4vw, 2.75rem);
 	line-height: 1.15;
-	letter-spacing: -0.045em;
+	letter-spacing: -0.035em;
 }
 
 .eyebrow {
@@ -377,6 +394,9 @@ img {
 	margin-block: 0.2rem;
 	font-family: var(--display);
 	font-size: 2.5rem;
+	font-weight: 500;
+	font-variant-numeric: lining-nums tabular-nums;
+	letter-spacing: -0.035em;
 	line-height: 1;
 }
 
@@ -395,8 +415,9 @@ img {
 .show-info h3 {
 	margin: 0;
 	font-size: 1.5rem;
+	font-weight: 500;
 	line-height: 1.25;
-	letter-spacing: -0.025em;
+	letter-spacing: -0.015em;
 	overflow-wrap: anywhere;
 }
 
@@ -404,11 +425,12 @@ img {
 .notes {
 	margin: 0.5rem 0 0;
 	color: var(--muted);
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 }
 
 .meta time {
 	color: var(--ink);
+	font-variant-numeric: lining-nums tabular-nums;
 }
 
 .actions {
@@ -425,7 +447,8 @@ img {
 	justify-content: center;
 	gap: 0.75rem;
 	min-height: 44px;
-	font-size: 0.75rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
 }
 
 .btn-primary {
@@ -583,7 +606,7 @@ img {
 
 	.hero h1 {
 		max-width: 20rem;
-		font-size: clamp(3.5rem, 14.5vw, 5rem);
+		font-size: clamp(3.2rem, 14.1vw, 5rem);
 	}
 
 	.hero-carousel {
