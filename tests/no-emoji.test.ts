@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { extname, join } from "node:path";
 import { describe, expect, it } from "vitest";
+import config from "../astro.config.mjs";
 import { buildCalendar } from "../src/lib/ics";
 import { parseShows } from "../src/lib/shows";
 
@@ -42,7 +43,7 @@ describe("no emoji in visitor-facing content", () => {
 		for (const file of ["src/data/shows.json", "src/data/shows.sample.json"]) {
 			const shows = parseShows(JSON.parse(readFileSync(file, "utf8")));
 			for (const events of [shows, ...shows.map((show) => [show])]) {
-				const calendar = buildCalendar(events, "https://tyler-improv.pages.dev/", { name: "Tyler Leonhardt · Improv shows" });
+				const calendar = buildCalendar(events, new URL(String(config.site)).href, { name: "Tyler Leonhardt · Improv shows" });
 				expect(violations(`${file} calendar output`, calendar), rule).toEqual([]);
 			}
 		}

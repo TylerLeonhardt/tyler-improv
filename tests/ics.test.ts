@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
+import config from "../astro.config.mjs";
 import { buildCalendar, foldLine, googleCalendarUrl, icsEscape } from "../src/lib/ics";
 import { parseShows } from "../src/lib/shows";
 
-const site = "https://tyler-improv.pages.dev/";
+const site = new URL(String(config.site)).href;
 const [show] = parseShows([
 	{
 		date: "2030-01-11",
@@ -36,6 +37,7 @@ describe("ics", () => {
 		expect(ics).toContain("UID:2030-01-11-1930-friday-night-ensemble@tyler-improv");
 		expect(ics).toContain("X-WR-CALNAME:Feed");
 		expect(ics.replace(/\r\n /g, "")).toContain("Doors at 7\\; bring friends\\, obviously");
+		expect(ics.replace(/\r\n /g, "")).toContain(`More shows: ${site}`);
 	});
 
 	it("is never empty (includes VTIMEZONE) even with zero shows", () => {
@@ -48,5 +50,6 @@ describe("ics", () => {
 		const url = new URL(googleCalendarUrl(show, site));
 		expect(url.searchParams.get("dates")).toBe("20300112T033000Z/20300112T050000Z");
 		expect(url.searchParams.get("location")).toBe("Seattle Comedy Theater");
+		expect(url.searchParams.get("details")).toContain(`More shows: ${site}`);
 	});
 });

@@ -33,6 +33,8 @@ both get the map link. Other venues do not inherit it. Do not add a map/address 
 
 No other fields are allowed; typos like `ticketURL` fail validation on purpose.
 
+Follow `../design-system/SKILL.md`: no emoji or emoji-capable symbols in show titles, venues, or any copy; `tests/no-emoji.test.ts` enforces this.
+
 If Tyler only says "Friday at 7:30", resolve it to a concrete date and **confirm it back** in your reply.
 Never add made-up or sample shows to `shows.json`.
 
@@ -121,11 +123,26 @@ Wait for CI to be green (`gh pr checks <n> --repo TylerLeonhardt/tyler-improv --
 Report back the PR link and a one-line summary of the show(s) as they'll appear (date, time, type, venue).
 
 If merging is authorized, wait for the production deployment of the merge commit
-to succeed, then verify https://tyler-improv.pages.dev and
-https://tyler-improv.pages.dev/shows.ics show the expected dates and calendar
+to succeed, then verify https://tylerleonhardt.live and
+https://tylerleonhardt.live/shows.ics show the expected dates and calendar
 entries. Check the live Tickets link. Past dates stay collapsed; do not mistake
 a PR preview deployment for production. See `../deploy/SKILL.md` for deployment
 status and manual redeploy commands.
+
+The primary URL is `https://tylerleonhardt.live`; a Cloudflare zone redirect
+301s `www` to the HTTPS apex with path/query preserved, except ACME validation
+paths. DNS is in Cloudflare (registrar Namecheap; nameservers
+`ariadne.ns.cloudflare.com` / `watson.ns.cloudflare.com`). Both proxied CNAMEs
+point to `tyler-improv.pages.dev`, the built-in hostname that still serves the
+site and feed without redirecting. Verify normal-resolution TLS, both hosts'
+page/feed HTTP 200, HTTP-to-HTTPS, and the `www` redirect. If broken, check the
+zone status, both Pages custom-domain statuses, the two CNAMEs, and the zone
+redirect rule using the deploy skill.
+
+Nameserver-change lesson: the registry switched in about 15 minutes and the
+zone activated right after, but public resolvers retained the old delegation
+much longer while Pages domains stayed pending. Compare several resolvers and
+test the edge with `curl --resolve` before concluding the setup is broken.
 
 ### Updating without a local checkout
 

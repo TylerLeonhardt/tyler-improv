@@ -3,7 +3,7 @@
 Tyler Leonhardt's improv site: a short bio plus a list of upcoming shows. Astro static site, deployed to
 Cloudflare Pages from `main`.
 
-Live URL: **https://tyler-improv.pages.dev**. Pages project `tyler-improv` is
+Live URL: **https://tylerleonhardt.live**. Pages project `tyler-improv` is
 connected through Cloudflare's native GitHub integration: pushes to `main`
 trigger production builds (`npm run build`, output `dist`, Node `22.22.1` from
 `.nvmrc`); other branches get previews. GitHub CI is a separate check, not the
@@ -14,6 +14,21 @@ For deploy verification or manual redeployment, follow
 and `/shows.ics`; a green preview check alone does not prove production is live.
 No GitHub deploy secrets are required. Touch only this Pages project, never
 other account resources or custom domains without explicit owner direction.
+
+DNS is hosted in Cloudflare, with Namecheap as registrar and nameservers
+`ariadne.ns.cloudflare.com` / `watson.ns.cloudflare.com`. Apex and `www` are
+proxied CNAMEs to the built-in hostname `tyler-improv.pages.dev`, which still
+serves the site and calendar feed without a redirect. A Cloudflare zone rule
+301s `www.tylerleonhardt.live` to the HTTPS apex with path/query intact,
+except `/.well-known/acme-challenge/` for certificate validation and renewal.
+Verify normal-resolution TLS, page and `/shows.ics` HTTP 200, HTTP-to-HTTPS,
+and the `www` redirect. If broken, check zone status, both Pages domain
+statuses, both CNAMEs, and the redirect rule; IDs and commands are in the deploy skill.
+
+After the nameserver change the registry switched in about 15 minutes and the
+zone activated right after, but public resolvers retained the old delegation
+much longer and Pages domains stayed pending. Compare multiple resolvers and
+use `curl --resolve` to test the edge before assuming the setup is broken.
 
 ## Most common task: adding a show
 
@@ -69,4 +84,4 @@ originals and `.incoming-photos/` after processing; commit only the final assets
 
 - Branch + PR for every change; never push to `main`. CI must be green.
 - Never invent shows. Never put sample data in `shows.json` (a test enforces this).
-- The site URL lives in `astro.config.mjs` (`SITE_URL`); update it when the custom domain is added.
+- The primary site URL lives in `astro.config.mjs` (`SITE_URL`); derive canonical metadata and absolute calendar links from it.
