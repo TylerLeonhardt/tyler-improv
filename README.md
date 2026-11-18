@@ -25,6 +25,25 @@ Times are 24-hour Seattle time. Past shows collapse into a "Past shows" section 
 
 Full instructions (for humans and agents): [`.github/skills/add-show/SKILL.md`](.github/skills/add-show/SKILL.md).
 
+### Dispatching the show-manager agent
+
+George can dispatch **`show-manager`** (`agent_name: show-manager`) for one or many
+new shows, corrections, cancellations, or supplied show-type images. The project
+profile [`.github/agents/show-manager.agent.md`](.github/agents/show-manager.agent.md)
+reads the existing skills, validates changes, ships through a green PR and squash
+merge, and verifies the live page/calendars with a phone screenshot.
+
+Run from the repository directory, with appropriate tool permissions and
+browser/screenshot tooling available:
+
+```bash
+copilot --agent show-manager --prompt "Dry run only: check what is missing to add a Dec 5 show; do not change files or ship."
+```
+
+Use a real owner request for a normal dispatch. Explicit dry-run or PR-only
+instructions stop before shipping; incomplete facts are reported as questions,
+not guessed. The profile leaves all available tools enabled.
+
 ## Calendar
 
 - Each show has **Add to calendar** (`/shows/<id>.ics`) and **Google Cal** links.

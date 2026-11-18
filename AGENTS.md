@@ -35,6 +35,22 @@ use `curl --resolve` to test the edge before assuming the setup is broken.
 Follow `.github/skills/add-show/SKILL.md`. In short: edit **only** `src/data/shows.json`
 (and optionally drop an image in `public/images/shows/<type-slug>.jpg`), run `npm test`, open a PR.
 
+## Show-manager custom agent
+
+Dispatch `show-manager` for additions, corrections, cancellations, or supplied
+show-type artwork. Its profile is `.github/agents/show-manager.agent.md`; it reads
+the existing skills and handles validation, PR, squash merge, and live verification.
+From this directory, for example:
+
+```bash
+copilot --agent show-manager --prompt "Dry run only: check what is missing to add a Dec 5 show; do not change files or ship."
+```
+
+George can use `agent_name: show-manager` when launching the CLI. Configure normal
+tool permissions and browser/screenshot tooling in the dispatch environment;
+the profile does not restrict available tools. Explicit dry-run/PR-only limits
+override its normal end-to-end shipping workflow.
+
 ## Show data format (`src/data/shows.json`)
 
 A JSON array of objects. All times are Seattle local time.
@@ -56,7 +72,7 @@ A JSON array of objects. All times are Seattle local time.
 
 ## Layout
 
-- `src/data/shows.json`: the real show list (starts empty). `shows.sample.json` is fake data for previews/tests only.
+- `src/data/shows.json`: the real show list. `shows.sample.json` is fake data for previews/tests only.
 - `src/lib/shows.ts`: schema (zod), parsing, Seattle time zone handling.
 - `src/lib/ics.ts`: calendar file generation. `src/lib/data.ts`: file loading and image lookup.
 - `src/pages/index.astro`, `src/components/ShowCard.astro`, `src/styles/global.css`: the page.
