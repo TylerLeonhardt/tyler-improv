@@ -5,7 +5,7 @@ import { buildCalendar } from "../src/lib/ics";
 import { parseShows } from "../src/lib/shows";
 
 const rule = ".github/skills/design-system/SKILL.md: no emoji or Unicode icons; use inline SVG or CSS shapes";
-const suspect = /[\p{Extended_Pictographic}\p{Regional_Indicator}\u2190-\u21ff\u2300-\u23ff\u25a0-\u27bf\u2b00-\u2bff\u20e3\ufe0f]/gu;
+const suspect = /[\p{Extended_Pictographic}\u{1f000}-\u{1faff}\u2190-\u21ff\u2300-\u23ff\u25a0-\u27bf\u2b00-\u2bff\u20e3\ufe0f]/gu;
 const textExtensions = new Set([".astro", ".css", ".js", ".ts", ".json", ".webmanifest", ".html", ".svg", ".txt", ".xml", ".ics"]);
 
 function textFiles(path: string): string[] {
@@ -48,7 +48,7 @@ describe("no emoji in visitor-facing content", () => {
 		}
 	});
 
-	it.each(["\u2197", "\u25b6", "\u23f8", "\u{1f600}", "\ufe0f", "\\2197", "\\25B6 ", "\\u2197", "\\u{1F600}", "&#8599;", "&#x2197;"])(
+	it.each(["\u2197", "\u25b6", "\u23f8", "\u{1f600}", "\u{1f3fb}", "\ufe0f", "\\2197", "\\25B6 ", "\\u2197", "\\u{1F600}", "&#8599;", "&#x2197;"])(
 		"rejects literal and escaped icons: %s", (text) => {
 			expect(violations("fixture", text).length).toBeGreaterThan(0);
 		},
