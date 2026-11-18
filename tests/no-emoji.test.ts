@@ -36,11 +36,14 @@ describe("no emoji in visitor-facing content", () => {
 		// defaults are exercised through generated calendar output below.
 		const files = ["src/components", "src/pages", "src/styles", "src/data", "public", "src/lib/ics.ts"]
 			.flatMap(textFiles);
+		if (process.env.SHOWS_FILE) files.push(process.env.SHOWS_FILE);
 		expect(files.flatMap((file) => violations(file, readFileSync(file, "utf8"))), rule).toEqual([]);
 	});
 
-	it("guards generated feed and individual calendar text for real and sample shows", () => {
-		for (const file of ["src/data/shows.json", "src/data/shows.sample.json"]) {
+	it("guards generated feed and individual calendar text for real, sample, and selected shows", () => {
+		const files = new Set(["src/data/shows.json", "src/data/shows.sample.json"]);
+		if (process.env.SHOWS_FILE) files.add(process.env.SHOWS_FILE);
+		for (const file of files) {
 			const shows = parseShows(JSON.parse(readFileSync(file, "utf8")));
 			for (const events of [shows, ...shows.map((show) => [show])]) {
 				const calendar = buildCalendar(events, new URL(String(config.site)).href, { name: "Tyler Leonhardt · Improv shows" });

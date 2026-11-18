@@ -6,13 +6,20 @@ import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { IMAGE_EXTENSIONS, loadShowImages, loadShows, SHOW_IMAGES_DIR } from "../src/lib/data";
-import { slugify } from "../src/lib/shows";
+import { formatParts, slugify } from "../src/lib/shows";
 
 const MAX_IMAGE_BYTES = 1_000_000;
 
 describe("src/data/shows.json", () => {
 	it("is valid (see error list for exactly what to fix)", () => {
 		expect(() => loadShows()).not.toThrow();
+	});
+
+	it("reports each selected show's Seattle time and UTC start", () => {
+		for (const show of loadShows()) {
+			const parts = formatParts(show);
+			console.info(`${parts.long}, ${parts.time} Seattle | ${show.start.toISOString()} | ${show.displayName}`);
+		}
 	});
 
 	it("does not contain sample data", () => {
@@ -23,11 +30,13 @@ describe("src/data/shows.json", () => {
 
 describe("src/data/shows.sample.json", () => {
 	it("is valid", () => {
+		const previous = process.env.SHOWS_FILE;
 		process.env.SHOWS_FILE = "src/data/shows.sample.json";
 		try {
 			expect(loadShows().length).toBeGreaterThan(0);
 		} finally {
-			delete process.env.SHOWS_FILE;
+			if (previous === undefined) delete process.env.SHOWS_FILE;
+			else process.env.SHOWS_FILE = previous;
 		}
 	});
 });

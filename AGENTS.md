@@ -50,6 +50,9 @@ George can use `agent_name: show-manager` when launching the CLI. Configure norm
 tool permissions and browser/screenshot tooling in the dispatch environment;
 the profile does not restrict available tools. Explicit dry-run/PR-only limits
 override its normal end-to-end shipping workflow.
+The add-show skill defines evening and year inference; applied assumptions are
+reported separately from questions. Unconfirmed default venues always get one
+batched confirmation question without holding the show.
 
 ## Show data format (`src/data/shows.json`)
 
@@ -92,6 +95,8 @@ originals and `.incoming-photos/` after processing; commit only the final assets
 ## Commands
 
 - `npm test`: validate data + images, unit tests (also `npm run validate` for data only)
+- `SHOWS_FILE=/absolute/path/to/proposed.json npm run check:shows`: validate a proposal,
+  guard emoji, and print Seattle/UTC starts without changing real data
 - `npm run build`: build to `dist/` (fails on invalid data)
 - `npm run dev`: local dev server
 - `SHOWS_FILE=src/data/shows.sample.json npm run dev`: preview with sample data

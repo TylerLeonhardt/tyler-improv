@@ -36,12 +36,16 @@ Inspect the current [show data](../../src/data/shows.json),
   image type. Preserve unrelated shows and existing fields when correcting one.
   Identify edits/removals uniquely by date plus name/time as needed; a date alone
   is not enough when multiple shows match. Delete only the requested cancellation.
-- Never guess required facts, AM/PM, year, title, venue, or ticket destinations.
-  Follow the add-show skill's relative-date and missing-field rules. Block only
-  ambiguous items, report explicit questions, and process independent clear items.
+- Follow the add-show skill's time-of-day, year-inference, weekday, partial-date
+  matching, and past-date rules: bare 1-11 means PM, not a blocking question;
+  explicit dayparts/24-hour input win and bare 12 needs clarification.
+  Never invent a year outside those rules, title, venue, or ticket destination.
+  Block only ambiguous items, report explicit questions, and process independent
+  clear items.
   Omit unsupplied optional fields for additions; do not erase them on edits unless
   requested. Omitted `venue` displays Seattle Comedy Theater and its Map link;
-  prominently disclose when that is only an unconfirmed default.
+  ask for confirmation of every unconfirmed default in one batched venue line;
+  do not hold publishing for venue confirmation.
 - Use supplied URLs verbatim in JSON. Flag slug/date/time mismatches for the
   owner rather than rewriting the URL or renaming the show to fit it.
 - Compare requested dates with the current Seattle date/time. Past shows move
@@ -61,14 +65,19 @@ Inspect the current [show data](../../src/data/shows.json),
 
 - A dry-run or preview-only request stops before commits, PRs, merges, and
   production changes; use separate temporary input, never real test shows.
+  Run the skill's `SHOWS_FILE=<path> npm run check:shows` command on the proposal
+  to validate it and report Seattle/UTC starts; do not hand-roll test configs.
 - Otherwise complete the show workflow through merge and live verification.
-  Check checkout ownership and status first; on an exclusively owned clean
+  Follow the skill's two separate shipping sequences. Check checkout ownership
+  and status first; on an exclusively owned clean
   checkout update `main` with `git pull --ff-only` and create
   `george/feature-<summary>` or `george/fix-<summary>`. If shared or owned by another
-  agent, do not switch branches or edit its files: use the add-show skill's
-  GitHub API commit workflow. Preserve others' work and rebase decisions on
+  agent, dirty, or ownership is uncertain, do not switch branches or edit its files:
+  use the add-show skill's GitHub API commit workflow. Preserve others' work and
+  rebase decisions on
   fresh remote state, not stale `origin/main`.
-- Keep changes to `src/data/shows.json` and assigned show-type images. Run
+- Keep changes to `src/data/shows.json` and assigned show-type images. In the
+  exclusive-checkout sequence run
   `npm test`, `npx astro check`, and `npm run build`; inspect the diff, open a PR
   with `gh`, wait for green `validate-and-build` and other checks, self-review,
   and squash-merge. Never push directly to `main`. With checkout-free commits,
@@ -97,6 +106,10 @@ Use plain words suitable for forwarding to the owner: what was added, corrected,
 or removed, with full date/year, Seattle time, title/type, venue (confirmed or
 default/unconfirmed), and tickets yes/no. Include the PR number/link, production
 commit/status, live page and calendar results, ticket-check limitations, and the
-absolute screenshot path. Put omitted information, unresolved items, and
-uncertainties under explicit **Questions for the owner**; do not bury them in
-technical output. If blocked before shipping, say so plainly.
+absolute screenshot path. Follow the skill's short-report guidance: applied PM,
+year, and matching assumptions go under **What I assumed**, not questions.
+Under **Questions for the owner**, merge questions per show, order publishing
+blockers first, and batch all unconfirmed-default venues into one final line.
+Include only decisions the owner actually needs to answer. Flag stale ticket
+parameters with which evidence was used and why. If blocked before shipping,
+say so plainly.

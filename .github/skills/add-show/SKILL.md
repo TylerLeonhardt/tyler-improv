@@ -21,8 +21,13 @@ Everything about shows lives in **one file**: `src/data/shows.json`. Images live
 | `notes`           | no       | One short sentence, e.g. `"Pay what you can"` or `"Doors at 7"`.              |
 | `durationMinutes` | no       | Whole number from `15` to `480`, default `90`. Calendar end and past-show cutoff. |
 
-If the venue is unconfirmed and no existing record identifies it, omit `venue`; never guess.
-Report it as unconfirmed: the site currently displays Seattle Comedy Theater when `venue` is omitted.
+When no venue is supplied for an addition, omit `venue`; never guess. On edits,
+preserve the existing venue. Every dispatch with an omitted, unconfirmed venue
+must ask for venue confirmation, even for an existing show; do not hold the show.
+The site displays Seattle Comedy Theater and its Map link when `venue` is omitted.
+Batch these confirmations into one short line under **Questions for the owner**,
+listing the affected shows: "Confirm Seattle Comedy Theater for Dec 12 ComedySportz
+and Nov 27 Rec League?" A previously confirmed venue needs no new question.
 Omit `ticketUrl` when no ticket link is supplied.
 
 Seattle Comedy Theater is at **3509 Fremont Ave N, Seattle, WA 98103**. Its website and
@@ -35,9 +40,52 @@ No other fields are allowed; typos like `ticketURL` fail validation on purpose.
 
 Follow `../design-system/SKILL.md`: no emoji or emoji-capable symbols in show titles, venues, or any copy; `tests/no-emoji.test.ts` enforces this.
 
-Resolve a relative date only when the request/context uniquely determines the
-Seattle date, year, and AM/PM, and **confirm the full date and time back**.
-Do not assume "7:30" means evening or roll an already-past date into next year.
+### Time of day
+
+Explicit AM/PM and explicit 24-hour times are always respected as given.
+Without a daypart or an explicit 24-hour designation, a bare hour from 1 to 11,
+with or without minutes, means PM: "7:30" becomes "19:30" and "8" becomes "20:00".
+Do not hold these items; report "I assumed 7:30 PM" or "I assumed 8 PM" under
+**What I assumed**. A leading zero denotes 24-hour input ("07:30" stays "07:30");
+hours 13 through 23 and 00 are also unambiguously 24-hour input.
+Bare "12" or "12:30" without a daypart or explicit 24-hour designation is held
+for noon-versus-midnight clarification; explicit "12:00" in 24-hour input is noon.
+Explicit "morning", "AM", "matinee", "afternoon", "evening", "noon", or "midnight"
+overrides the PM default: morning 7 means 07:00, matinee 2 means 14:00,
+noon means 12:00, and midnight means 00:00 on the stated date.
+Hold contradictory daypart/time instructions (such as "morning 19:30") or a
+daypart that does not resolve a bare 12, rather than inventing a time.
+
+### Dates, years, and matching existing shows
+
+Use today's date in America/Los_Angeles, not the machine's UTC date.
+For a new show with an explicit month and day but no year, use the nearest
+occurrence on or after today in Seattle, only when no supplied year, weekday,
+historical wording, ticket-link evidence, or other context contradicts it.
+State the inferred full date/year under **What I assumed**.
+For example, on November 18, 2026, "Dec 12" means December 12, 2026 and
+"Jan 9" means January 9, 2027; on December 30, 2026, "Jan 9" means January 9,
+2027. On January 10, 2027, an otherwise context-free new "Jan 9" means January 9,
+2028. This explicit month/day inference is allowed; do not guess a year when
+context conflicts or a month is missing. Do not silently roll an explicitly
+dated or clearly historical past show forward. Invalid dates are held.
+
+Check any stated weekday against the resolved date. If they disagree, hold and
+ask which is correct; never change the date or search later years for a match.
+On Wednesday, November 18, 2026, "Friday the 19th" is held: November 19 is
+Thursday, and neither a different day nor a different month is authorized.
+Even though February 19, 2027 is Friday, do not jump to that month.
+Relative phrases such as "tomorrow" are allowed only when they uniquely resolve
+from the Seattle reference date; always report the full date/year and time.
+
+For edits/cancellations, match partial dates against existing data first, not
+the new-show future-year rule. Filter by every supplied part (day, month, year,
+name/type, time); proceed only if exactly one show matches, and report its full
+date, time, and name. "Cancel the one on the 14th" matches the existing November
+14, 2026 Full Disclosure only if no other record matches the 14th. Zero or
+multiple matches require a question; never choose merely the nearest show.
+Check a supplied weekday too, even when the data match is otherwise unique.
+
 If required facts are missing or an edit/cancellation matches multiple shows,
 leave that item unchanged and report an explicit question for the owner through
 George. In unattended dispatches, do not wait for an answer or guess; complete
@@ -50,12 +98,34 @@ strings. Flag a slug/date/time mismatch rather than "fixing" the link or changin
 the show to match it (PR #3 deliberately preserved the Rec League show's
 different ticket slug). Parsing may normalize a URL for rendered output; do not
 manually rewrite the stored owner-supplied value.
+An explicit owner correction takes precedence over an existing ticket link:
+apply it, preserve the link, and flag exactly which date/time parameter is
+stale and why the owner's correction was used. For example, changing Nov 27
+to "8" means 20:00 even if its existing link still says 19:30.
+For additions, if a supplied link contradicts an inferred year or PM time,
+hold and ask unless the owner explicitly identifies which evidence to use.
+Never silently choose between truly conflicting instructions.
 
 Compare additions against the current Seattle date/time. If a requested date
 has already passed, say so and ask whether an archive entry or a different date
 was intended; leave it out unless the request explicitly calls for the archive.
-An intentional historical addition belongs in Past shows, never Upcoming.
+An intentional historical addition is accepted, but the site classifies by
+end time, not the calendar date alone: `splitShows` moves it to Past shows
+when start plus `durationMinutes` (default 90) is at or before now.
+An earlier start today may still be Upcoming until it ends; flag an elapsed
+start without claiming it is already archived. The parser accepts past dates;
+it does not infer dates/years or check the owner's facts.
 Never add made-up or sample shows to `shows.json`.
+
+### Validation is not fact-checking
+
+A passing schema does not prove an entry is right. Independently check the
+Seattle reference date, inferred year, stated weekday, past start/end, unique
+existing-show match, exact type/title spelling, supplied emoji, venue status,
+and ticket URL slug/date/time parameters against the owner's message.
+Flag supplied emoji and ask for an approved plain-text name; never silently
+rewrite it. Do not invent a title or ticket link. The emoji guard is a separate
+check, not part of `parseShows`.
 
 ## 2. Edit `src/data/shows.json`
 
@@ -119,6 +189,22 @@ the thumbnail, so an image is never required.
 
 ## 4. Validate
 
+For a proposed file or dry run, keep fake input outside the repository and run:
+
+```bash
+SHOWS_FILE=/absolute/path/to/proposed.json npm run check:shows
+```
+
+This runs the real `loadShows` / `parseShows` validation, image checks, and
+the emoji guard on both source JSON (including escapes) and generated calendars.
+It retains real/sample emoji coverage and prints every selected show's Seattle
+date/time and UTC start using `formatParts` and the parsed `start`.
+It makes no commits and does not change real data. No custom test config is needed.
+`SHOWS_FILE=/absolute/path/to/proposed.json npm test` also runs the full suite.
+For a preview use that same environment variable with `npm run dev`.
+
+On the exclusive-checkout sequence below, all three local checks are required:
+
 ```bash
 npm test        # validates shows.json + images, runs unit tests
 npx astro check # type checking (also required by CI)
@@ -135,6 +221,12 @@ Optional local preview: `npm run dev`, then open the printed URL.
 
 Never push to `main`. Use a branch + PR; merging to `main` triggers a production
 build through Cloudflare Pages' native GitHub integration (`tyler-improv` project).
+
+### Exclusive clean checkout: local branch and local checks
+
+Choose this sequence only after confirming exclusive ownership and a clean
+`git status`. Create the branch before editing, perform the edit, run all three
+local checks in section 4, inspect the diff, then commit and open the PR:
 
 ```bash
 git checkout main && git pull --ff-only
@@ -190,9 +282,9 @@ Report additions/corrections/removals in plain words with full date/year, Seattl
 time, title/type, venue and tickets yes/no, then the PR number/link, production
 commit/status, live page/calendar verification results and screenshot path.
 Clearly distinguish verified results from unavailable tools, auth or checks.
-Prominently list missing or uncertain facts as **Questions for the owner**,
-especially omitted/unconfirmed venues that render as the default. Do not claim
-completion of blocked items.
+List only unresolved owner decisions as **Questions for the owner**, following
+the short-report guidance below, including one batched confirmation of
+unconfirmed default venues. Do not claim completion of blocked items.
 
 The primary URL is `https://tylerleonhardt.live`; a Cloudflare zone redirect
 301s `www` to the HTTPS apex with path/query preserved, except ACME validation
@@ -209,13 +301,33 @@ zone activated right after, but public resolvers retained the old delegation
 much longer while Pages domains stayed pending. Compare several resolvers and
 test the edge with `curl --resolve` before concluding the setup is broken.
 
-### Updating without a local checkout
+### Shared or dirty checkout: API commit and CI gate
 
-If another agent owns the checkout, do not switch branches or edit its files. Read the base
+Choose this sequence if the checkout is shared, another agent owns it, ownership
+is uncertain, or it has pre-existing changes. Do not stash, switch branches, edit
+its files, or run local checks against someone else's work as proof of the PR.
+Read the base
 with `git show origin/main:src/data/shows.json` and confirm `origin/main` matches remote `main`.
 Prepare the updated JSON outside the repo (or in memory if temporary writes are blocked) and
-validate it with the base revision's `src/lib/shows.ts` schema and parsing logic. Create a remote
+validate it with the base revision's `check:shows` command in an already available
+isolated environment if permitted. If unavailable, explicitly defer validation
+to CI; do not claim local validation. Create a remote
 feature ref and commit via the GitHub Contents or Git Data API, preserving existing shows and
 using the base file SHA for Contents API updates. Open the PR with `gh pr create --head <branch>`,
 wait for CI tests and build to pass, and verify any available preview's show count, dates, and
 Seattle times before merging. Do not retry denied worktree or clone operations.
+Required CI (`validate-and-build` and other checks) is the validation gate for
+this sequence and must pass on the proposed commit before self-review and merge.
+Both sequences use the same post-merge production verification above.
+
+### Keep the owner report short
+
+Separate applied **What I assumed** (PM, inferred years, exact matched records)
+from **Questions for the owner**. Assumptions already applied are not questions.
+Order questions by publishing blockers first, merge related questions per show,
+and ask only for decisions the owner must make. Put all unconfirmed-default
+venue confirmations in one final line, not one question per show. Flag a stale
+existing ticket parameter as a discrepancy with the applied correction and
+reason; do not turn it into a blocking question unless the owner must choose
+between genuinely conflicting instructions. Mark held items clearly and do
+not claim they were published.
