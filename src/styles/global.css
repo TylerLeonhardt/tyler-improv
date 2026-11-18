@@ -498,9 +498,32 @@ img {
 .past summary {
 	width: fit-content;
 	padding-block: 1rem;
+	list-style: none;
 	cursor: pointer;
 	color: var(--muted);
 	font-size: 0.8125rem;
+}
+
+.past summary::-webkit-details-marker {
+	display: none;
+}
+
+.past summary::before {
+	content: "";
+	display: inline-block;
+	width: 0;
+	height: 0;
+	margin-right: 0.5rem;
+	border: 0.3em solid transparent;
+	border-right: 0;
+	border-left: 0.45em solid currentColor;
+	vertical-align: 0.05em;
+}
+
+.past[open] summary::before {
+	border: 0.3em solid transparent;
+	border-bottom: 0;
+	border-top: 0.45em solid currentColor;
 }
 
 .count {

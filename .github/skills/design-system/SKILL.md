@@ -10,6 +10,15 @@ photography, and generous whitespace do the work. Avoid theatre-themed decoratio
 ticket notches, dashed borders, decorative gradients, emoji, novelty copy, and animated transforms.
 The mobile photo hero's contrast scrim is the functional exception.
 
+No emoji anywhere on the site: copy, UI, alt text, metadata, or calendar text.
+Do not use Unicode symbols as icons: iOS renders many of them as emoji even when
+desktop browsers show text glyphs. Use the decorative inline SVG component
+`src/components/ExternalArrow.astro` for external-link arrows, and SVG or pure CSS
+shapes for other icons. Preserve accessible names and screen-reader text.
+`tests/no-emoji.test.ts` guards visitor-facing templates, styles, scripts, data,
+public text assets, and generated calendars, including numeric character escapes.
+Developer-only validation error arrows in `src/lib/shows.ts` are not site content.
+
 ## Site purpose
 
 The site's main job is to be a quick reminder of upcoming performance dates.

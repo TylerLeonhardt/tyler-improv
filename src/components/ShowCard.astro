@@ -1,4 +1,5 @@
 ---
+import ExternalArrow from "./ExternalArrow.astro";
 import { googleCalendarUrl } from "../lib/ics";
 import { formatParts, type Show } from "../lib/shows";
 
@@ -41,7 +42,7 @@ const when = formatParts(show);
 					{
 						show.ticketUrl && (
 							<a class="btn btn-primary" href={show.ticketUrl} rel="noopener" target="_blank">
-								Tickets <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">↗</span>
+								Tickets <span class="sr-only">(opens in a new tab)</span><ExternalArrow />
 							</a>
 						)
 					}
