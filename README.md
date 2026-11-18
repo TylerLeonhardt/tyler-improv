@@ -41,8 +41,11 @@ copilot --agent show-manager --prompt "Dry run only: check what is missing to ad
 ```
 
 Use a real owner request for a normal dispatch. Explicit dry-run or PR-only
-instructions stop before shipping; incomplete facts are reported as questions,
-not guessed. The profile leaves all available tools enabled.
+instructions stop before shipping. The add-show skill defines the PM default
+and safe year inference; applied assumptions are reported separately from
+questions. Unconfirmed default venues get one batched confirmation question
+without holding the show. Other ambiguous required facts are held, not guessed.
+The profile leaves all available tools enabled.
 
 ## Calendar
 
@@ -57,6 +60,7 @@ npm run dev        # local server
 npm test           # validates shows.json + images, unit tests
 npm run build      # outputs dist/
 SHOWS_FILE=src/data/shows.sample.json npm run dev   # preview with fake sample shows
+SHOWS_FILE=/absolute/path/to/proposed.json npm run check:shows # validate and print Seattle/UTC starts
 ```
 
 ## Deploy (Cloudflare Pages)

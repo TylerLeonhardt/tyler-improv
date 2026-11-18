@@ -9,6 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "validate": "vitest run tests/shows-data.test.ts",
+    "check:shows": "vitest run tests/shows-data.test.ts tests/no-emoji.test.ts --silent=false",
     "test": "vitest run",
     "check": "npm test && npm run build"
   },
