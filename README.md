@@ -42,7 +42,15 @@ SHOWS_FILE=src/data/shows.sample.json npm run dev   # preview with fake sample s
 
 ## Deploy (Cloudflare Pages)
 
-Live site: **https://tyler-improv.pages.dev**
+Live site: **https://tylerleonhardt.live**
+
+`www.tylerleonhardt.live` 301s to the HTTPS apex through a Cloudflare zone
+redirect rule, preserving path and query (ACME certificate-validation paths
+are exempt). DNS is hosted in Cloudflare; the registrar is Namecheap, with
+nameservers `ariadne.ns.cloudflare.com` and `watson.ns.cloudflare.com`.
+Both the apex and `www` are proxied CNAMEs to `tyler-improv.pages.dev`, the
+Pages project's built-in hostname. That hostname still serves the site and
+`/shows.ics` directly: intentionally do not redirect it.
 
 Cloudflare Pages project `tyler-improv` uses the native GitHub integration with
 `TylerLeonhardt/tyler-improv`. Every push to `main` triggers a production build;
@@ -57,7 +65,8 @@ type-checks, and builds PRs; wait for green checks before merging.
 | Build output directory | `dist`          |
 | Node version           | `22.22.1` (from `.nvmrc`; Astro needs >= 22.22) |
 
-When a custom domain is added, update `SITE_URL` in `astro.config.mjs`.
+`SITE_URL` in `astro.config.mjs` is the source for canonical/OG URLs and absolute
+calendar links; its default is the primary URL above.
 
 ### Verify a deploy
 
@@ -68,6 +77,10 @@ confirm the production deployment succeeded for the expected `main` commit.
 Then check the actual public site, not just the deployment status:
 
 ```bash
+curl --fail https://tylerleonhardt.live/
+curl --fail https://tylerleonhardt.live/shows.ics
+curl -sI http://tylerleonhardt.live/
+curl -sI 'https://www.tylerleonhardt.live/some/path?x=1'
 curl --fail https://tyler-improv.pages.dev/
 curl --fail https://tyler-improv.pages.dev/shows.ics
 ```
@@ -75,6 +88,20 @@ curl --fail https://tyler-improv.pages.dev/shows.ics
 Confirm the upcoming dates and Tickets links in a browser. Past dates belong in
 the collapsed Past shows section. Check canonical/OG URLs, calendar links, and
 any changed fonts or images on the live site.
+
+HTTPS must validate without `-k`; HTTP must redirect to HTTPS, and `www` must
+301 to `https://tylerleonhardt.live/some/path?x=1`. If the domain breaks, check
+the Cloudflare zone is active, both Pages custom domains are active, both
+proxied CNAMEs target the built-in hostname, and the zone redirect rule is
+enabled with its ACME exception. See the [deploy skill](.github/skills/deploy/SKILL.md)
+for IDs, read-back commands, and resolver comparisons.
+
+Nameserver-change lesson: the registry switched in about 15 minutes and the
+zone activated immediately afterward, but public resolvers retained the old
+delegation much longer while Pages domains stayed pending. Compare several
+resolvers and test the Cloudflare edge with `curl --resolve` before concluding
+the configuration is broken. A redirect over the HTTP ACME challenge path can
+also block Pages validation; keep that path exempt.
 
 ### Redeploy manually
 
