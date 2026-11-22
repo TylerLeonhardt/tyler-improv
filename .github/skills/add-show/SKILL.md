@@ -219,6 +219,8 @@ Optional local preview: `npm run dev`, then open the printed URL.
 
 ## 5. Ship
 
+Never put local filesystem paths or account identifiers in PR text on this public repo.
+
 Never push to `main`. Use a branch + PR; merging to `main` triggers a production
 build through Cloudflare Pages' native GitHub integration (`tyler-improv` project).
 
