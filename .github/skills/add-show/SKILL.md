@@ -185,6 +185,14 @@ the thumbnail, so an image is never required.
    the final assets. If an image arrives through chat, stage the attachment in `.incoming-photos/`
    and follow the same process.
 
+When one supplied picture is intended for several show types, derive each exact
+slug with `slugify` in `src/lib/shows.ts` and copy the picture to one file per slug;
+there is no shared-image alias. For ComedySportz, the same JPEG serves Comedy for
+Everyone and Rec League vs. The Pros through their separate type-slug filenames.
+Report any assumption about which types the owner intended. Keep original bytes
+when the image is already suitably sized, landscape, and under 1 MB; do not
+upscale or re-encode unnecessarily.
+
 `npm test` prints which types have no show image.
 
 ## 4. Validate
