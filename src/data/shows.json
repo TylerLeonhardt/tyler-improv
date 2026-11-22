@@ -16,5 +16,24 @@
     "time": "19:30",
     "type": "ComedySportz: Rec League vs. The Pros",
     "ticketUrl": "https://www.crowdwork.com/e/comedysportz-comedy-for-everyone?date=2026-11-27T19:30:00"
+  },
+  {
+    "date": "2026-12-05",
+    "time": "14:00",
+    "type": "PuppyProv",
+    "ticketUrl": "https://www.crowdwork.com/e/puppy-prov?date=2026-12-05T14:00:00"
+  },
+  {
+    "date": "2026-12-12",
+    "time": "19:30",
+    "type": "ComedySportz: Comedy for Everyone",
+    "ticketUrl": "https://www.crowdwork.com/e/comedysportz-comedy-for-everyone?date=2026-12-12T19:30:00"
+  },
+  {
+    "date": "2026-12-31",
+    "time": "19:00",
+    "type": "ComedySportz: Comedy for Everyone",
+    "title": "ComedySportz NYE Show",
+    "ticketUrl": "https://www.crowdwork.com/e/comedysportz-nye-comedy-for-everyone?date=2026-12-31T19:00:00"
   }
 ]
