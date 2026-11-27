@@ -163,6 +163,8 @@ node -e 'console.log([...new Set(require("./src/data/shows.json").map(s => s.typ
 To **edit** a show, change its fields in place. To **cancel** one, delete its object.
 Match by date and title/type, using time to disambiguate multiple shows on a date.
 Never delete all shows on a date unless explicitly requested.
+Keep the show-type image when cancelling: images belong to the type, not one
+date, and the type may recur. Remove an image only when the owner asks.
 
 ## 3. (Optional) Add a show-type image
 
